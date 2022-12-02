@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>
+        Create Item
+    </title>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>Create an Item</h1>
+        {% for error in errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+                <!-- displays the error we provided in items.py -->
+            </div>
+        {% endfor %}
+        <form method="post">
+          <div class="mb-3">
+            <label for="title" class="form-label">Item Title</label>
+            <input type="text" class="form-control" name="title" required placeholder="Enter Item Title">
+                <!-- required is used -->
+          </div>
+
+          <div class="mb-3">
+            <label for="description" class="form-label">Item Description</label>
+            <textarea class="form-control" required name="description" placeholder="Enter Item Description"></textarea>
+                <!-- we are using textarea as description needs more place -->
+                <!-- required is used -->
+          </div>
+          <div class="form-text">Enter item's description,in details</div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}

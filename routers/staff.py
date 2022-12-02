@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from schemas import StaffCreate, ShowStaff
-from database import get_db
-from hashing import Hasher
-from models import Staff
+from schemas.schemas import StaffCreate, ShowStaff
+from db.database import get_db
+from config.hashing import Hasher
+from db.models import Staff
 
 router=APIRouter()
 
@@ -19,7 +19,8 @@ def create_staff(
 ):
     staff = Staff(
         email=staff.email,
-        password=Hasher.get_hash_password(staff.password)
+        password=Hasher.get_hash_password(staff.password),
+        #user_id=staff.staff_id
     )
     db.add(staff)
     db.commit()

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
-from schemas import ItemCreate, ShowItem
-from models import Items
+from schemas.items import ItemCreate, ShowItem
+from db.models import Item
 from datetime import datetime
 from sqlalchemy.orm import Session
-from database import get_db
+from db.database import get_db
 
 router = APIRouter()
 
@@ -17,11 +17,11 @@ def create_item(
         item: ItemCreate,
         db: Session = Depends(get_db)
 ):
-    date_posted = datetime.now().date()
+    creation_date = datetime.now().date()
     #owner_id = 1
-    item = Items(
+    item = Item(
         **item.dict(),
-        date_posted=date_posted,
+        creation_date=creation_date,
         #owner_id=owner_id
     )
     db.add(item)

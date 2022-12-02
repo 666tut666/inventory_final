@@ -1,4 +1,4 @@
-from database import Base
+from db.database import Base
 from sqlalchemy import Column, Integer, Boolean, DateTime, String, ForeignKey, Date
 from sqlalchemy.orm import relationship
 
@@ -127,3 +127,13 @@ class AccountType(Base):
         "StaffAccount",
         backref="account_type",
     )
+
+
+class Item(Base):
+    __tablename__ = "items"
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String)
+    type = Column(String)
+    category = Column(String)
+    quantity= Column(Integer)
+    creation_date = Column(DateTime)
