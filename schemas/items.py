@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from datetime import datetime
+from datetime import date
 
 
 class ItemCreate(BaseModel):
@@ -8,11 +8,11 @@ class ItemCreate(BaseModel):
     type: str
     category: str
     quantity: int
-    id: Optional[int]
-    creation_date: Optional[datetime]
+    #id: Optional[int]
 
-    class Config:
-        orm_mode=True
+
+    #class Config:
+        #orm_mode=True
         #schema_extra = {
         #    'example': {
         #        "Title":"String",
@@ -28,6 +28,7 @@ class ShowItem(BaseModel):
     type: str
     category: str
     quantity: int
+    creation_date: date
 
     class Config:
         orm_mode=True

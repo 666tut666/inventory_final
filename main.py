@@ -5,6 +5,8 @@ from config.db_config import setting
 from routers import admin
 from routers import staff
 from routers import items
+from webapps.routers import items as web_items, users as web_users, auth as web_auth
+
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI(
@@ -19,7 +21,9 @@ app = FastAPI(
 app.include_router(admin.router)
 app.include_router(staff.router)
 app.include_router(items.router)
-
+app.include_router(web_items.router)
+app.include_router(web_users.router)
+app.include_router(web_auth.router)
 
 @app.get("/")
 def hello():

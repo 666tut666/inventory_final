@@ -1,5 +1,5 @@
 from db.database import Base
-from sqlalchemy import Column, Integer, Boolean, DateTime, String, ForeignKey, Date
+from sqlalchemy import Column, Integer, Boolean, String, ForeignKey, Date, DateTime
 from sqlalchemy.orm import relationship
 
 
@@ -9,8 +9,8 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(50), unique=True, index=True)
     password = Column(String(100))
-    creation_date = Column(DateTime)
-    activation_date = Column(DateTime, nullable=True)
+    creation_date = Column(Date)
+    activation_date = Column(Date, nullable=True)
     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
     status_type_id = Column(Integer, ForeignKey("status_type.id"))
     role_id= Column(Integer, ForeignKey("role.id"))
@@ -136,4 +136,4 @@ class Item(Base):
     type = Column(String)
     category = Column(String)
     quantity= Column(Integer)
-    creation_date = Column(DateTime)
+    creation_date = Column(Date)
