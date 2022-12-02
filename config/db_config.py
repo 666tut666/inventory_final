@@ -19,5 +19,8 @@ class Settings:
     POSTGRES_DATABASE = os.getenv("POSTGRES_DATABASE", "inventory_management")
     DATABASE_URL = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVER}/{POSTGRES_DATABASE}"
 
+    SECRET_KEY = os.getenv("SECRET_KEY")
+    ALGORITHM = "HS256"
+
 
 setting = Settings()
