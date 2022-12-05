@@ -109,10 +109,6 @@ class StaffAccount(Base):
     name = Column(String(100))
     number = Column(String(50))
     is_active = Column(Boolean, default=False)
-    is_default = Column(Boolean, default=False)
-    issuer = Column(String(100))
-    creation_date = Column(DateTime)
-    deactivation_date = Column(Date)
     staff_id = Column(Integer, ForeignKey("staff.id", ondelete="CASCADE"))
     account_type_id = Column(Integer, ForeignKey("account_type.id"))
 

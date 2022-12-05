@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
-from db.models import Item, User
+from db.models import Item, User, Admin
 from sqlalchemy.orm import Session
 from db.database import get_db
 
@@ -32,7 +32,7 @@ def item_detail(
         db: Session = Depends(get_db)
 ):
     item = db.query(Item).filter(Item.id==id).first()
-    user = db.query(User).filter(User.id==item.owner_id).first()
+    user = db.query(User).filter(User.id==Admin.user_id).first()
     return templates.TemplateResponse(
         "item_detail.html",
         {
