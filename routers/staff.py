@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from schemas.schemas import StaffCreate, ShowStaff
+from fastapi.templating import Jinja2Templates
 from db.database import get_db
 from config.hashing import Hasher
 from db.models import Staff
 
 router=APIRouter()
+templates = Jinja2Templates(directory="templates")
 
 
 @router.post(
@@ -26,6 +28,17 @@ def create_staff(
     db.commit()
     db.refresh(staff)
     return staff
+
+
+@router.post(
+    "/staff",
+    tags=["staff"]
+)
+def get_staff(request: Request):
+    return templates.TemplateResponse(
+        "staff.html",
+        {"request": request}
+    )
 
 
 @router.get("/staff/{id}", tags=["staff"])

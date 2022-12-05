@@ -6,28 +6,43 @@
 {% endblock %}
 
 {% block content %}
+	<div class="dropdown">
+	  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+		Dropdown button
+	  </button>
+		  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+			{% for item in items %}
+				<li><a class="dropdown-item" href="#">
+					{% with citem = item %}
+						{% include 'card.html' %}
+					{% endwith %}
+				</a></li>
+		  	{% endfor %}
+		  </ul>
+	</div>
+
     <div class="container">
 		<h1>Item Detail</h1>
 		<table class="table">
 		  <tbody>
    			 <tr>
      			 <th scope="row">Title</th>
-     			 <td>{{item.title}}</td>
     		</tr>
     		<tr>
       			<th scope="row">Description</th>
-      			<td>{{item.description}}</td>
     		</tr>
     		<tr>
       			<th scope="row">Date Posted</th>
-      			<td colspan="2">{{item.date_posted}}</td>
     		</tr>
 			<tr>
 				<th scope="row">Owner</th>
-				<td colspan="2">{{ user.email }}</td>
 			</tr>
+
 		  </tbody>
 	    </table>
+		<form method="post">
+				<button type="submit" class="btn btn-primary">Send Request</button>
+		</form>
 	</div>
 
 {% endblock %}
