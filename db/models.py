@@ -129,7 +129,7 @@ class Item(Base):
     __tablename__ = "items"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
-    type = Column(String)
+    item_type = Column(String)
     category = Column(String)
     quantity= Column(Integer)
     creation_date = Column(Date)

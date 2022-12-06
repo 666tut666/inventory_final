@@ -5,7 +5,7 @@ from datetime import date
 
 class ItemCreate(BaseModel):
     title: str
-    type: str
+    item_type: str
     category: str
     quantity: int
     #id: Optional[int]
@@ -25,7 +25,7 @@ class ItemCreate(BaseModel):
 
 class ShowItem(BaseModel):
     title: str
-    type: str
+    item_type: str
     category: str
     quantity: int
     creation_date: date

@@ -59,7 +59,7 @@ async def create_an_item(request: Request):
     form = await request.form()
     #id = Optional[form.get("id")]
     title = form.get("title")
-    type = form.get("title")
+    item_type = form.get("item_type")
     category = form.get("category")
     quantity = form.get("quantity")
     creation_date = form.get("creation_date")
@@ -71,7 +71,7 @@ async def create_an_item(request: Request):
         #it`ll store errors
     if not title or len(title) < 2:
         errors.append("Title should be greater than two character")
-    if not type or len(type) < 3:
+    if not item_type or len(item_type) < 3:
         errors.append("type should be be more than tree characters")
     if not quantity:
         errors.append("Quantity should be be more than tree characters")
