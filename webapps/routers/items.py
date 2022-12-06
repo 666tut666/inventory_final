@@ -3,6 +3,7 @@ from fastapi.templating import Jinja2Templates
 from db.models import Item, User, Admin
 from sqlalchemy.orm import Session
 from db.database import get_db
+from typing import Optional
 
 router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
@@ -56,18 +57,30 @@ def create_an_item(request: Request):
 @router.post("/create-an-item")
 async def create_an_item(request: Request):
     form = await request.form()
+    #id = Optional[form.get("id")]
     title = form.get("title")
-    description = form.get("description")
+    type = form.get("title")
+    category = form.get("category")
+    quantity = form.get("quantity")
+    creation_date = form.get("creation_date")
+
+
+
     errors = []
         #we need to define error dictionary
         #it`ll store errors
     if not title or len(title) < 2:
         errors.append("Title should be greater than two character")
-    if not description or len(description) <10:
-        errors.append("Description should be be more than ten characters")
-    #if there are errors len will not be 0
-    #in case of error we gotta display error
-    #and also reload page showing what error, SO
+    if not type or len(type) < 3:
+        errors.append("type should be be more than tree characters")
+    if not quantity:
+        errors.append("Quantity should be be more than tree characters")
+    if not category or len(category) < 3:
+        errors.append("Category should be be more than three characters")
+
+
+
+    #reload page showing what error, SO
     if len(errors) > 0:
         return templates.TemplateResponse(
             "create_item.html",
@@ -77,3 +90,20 @@ async def create_an_item(request: Request):
             }
         )
     #{....} passing context dict, request and showing error
+
+    try:
+        token = request.cookies.get("access_token")
+        if token is None:
+            errors.append("Please Login first")
+            return templates.TemplateResponse(
+                "login.html",
+                {
+                    "request":request,
+                    "errors":errors
+                }
+            )
+        else:
+            scheme, _, param = token.partition(" ")
+
+    except Exception as e:
+        print(e)

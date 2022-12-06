@@ -20,13 +20,22 @@
             <input type="text" class="form-control" name="title" required placeholder="Enter Item Title">
                 <!-- required is used -->
           </div>
-
           <div class="mb-3">
-            <label for="description" class="form-label">Item Description</label>
-            <textarea class="form-control" required name="description" placeholder="Enter Item Description"></textarea>
-                <!-- we are using textarea as description needs more place -->
+            <label for="type" class="form-label">Item Type</label>
+            <input type="text" class="form-control" name="type" required placeholder="Enter Item Type">
                 <!-- required is used -->
           </div>
+          <div class="mb-3">
+            <label for="category" class="form-label">Item Category</label>
+            <input type="text" class="form-control" name="category" required placeholder="Enter Item Category">
+                <!-- required is used -->
+          </div>
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Item Quantity</label>
+            <input type="number" class="form-control" name="quantity" required placeholder="Enter Item Quantity">
+                <!-- required is used -->
+          </div>
+
           <div class="form-text">Enter item's description,in details</div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
