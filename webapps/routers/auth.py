@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends, Response
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.models import User
+from db.models import Admin
 from config.hashing import Hasher
 from jose import jwt
 from config.db_config import setting
@@ -39,8 +39,8 @@ async def login(
 
     try:
         # checking if email exists on db.
-        user = db.query(User).filter(User.email == email).first()
-        if user is None:
+        admin = db.query(Admin).filter(Admin.email == email).first()
+        if admin is None:
             errors.append("Email does not exist")
             return templates.TemplateResponse(
                 "login.html",
@@ -49,9 +49,9 @@ async def login(
             # returning login page again as
             # login was not successful
         else:
-            if Hasher.verify_password(password, user.password):
+            if Hasher.verify_password(password, admin.password):
                 # password is plain password,
-                # user.password is hashed pw from db
+                # admin.password is hashed pw from db
                 # after password is verified, need jwt token, so
                 data = {"sub": email}
                 # jwt.io remember?

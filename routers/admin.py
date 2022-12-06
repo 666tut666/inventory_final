@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
-from db.schemas.schema import AdminCreate, ShowAdmin
+from db.schemas.admin import AdminCreate, ShowAdmin
 from db.database import get_db
 from config.hashing import Hasher
 from db.models import Admin
@@ -9,21 +8,28 @@ from typing import List
 
 router=APIRouter()
 
+@router.get(
+    "/admin",
+    tags=['admin']
+)
+##tags=["..."] to manage kun tag ma halnae
+def get_user():
+    return {"message": "hello user"}
+
+
 
 @router.post(
     "/admin",
     tags=['admin'],
-    response_model=ShowAdmin
+    response_model= ShowAdmin
 )
-def create_admin(
+def register(
         admin: AdminCreate,
         db: Session = Depends(get_db)
 ):
     admin = Admin(
         email=admin.email,
-        password=Hasher.get_hash_password(admin.password),
-        user_id=admin.admin_id
-        #admin_type_id=admin.admin_type_id
+        password=Hasher.get_hash_password(admin.password)
     )
     db.add(admin)
     db.commit()
@@ -41,6 +47,7 @@ def get_admin(
 ):
     admins = db.query(Admin).all()
     return admins
+
 
 
 @router.get("/admin/{id}", tags=["admin"])

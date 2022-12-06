@@ -2,7 +2,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.models import User
+from db.models import Admin
 from config.hashing import Hasher
 from jose import jwt
 from config.db_config import setting
@@ -23,20 +23,20 @@ def retrieve_token_after_authentication(
         db:Session = Depends(get_db)
 ):
     ##as form data depends on the form itself, nothing passed in form data's Depends
-    ##but db:Session Depends from database , get_db
-    user = db.query(User).filter(User.email==form_data.username).first()
+    ##but the database session "db:Session", Depends on get_db
+    admin = db.query(Admin).filter(Admin.email==form_data.username).first()
         #checking if the table has provided email
-    if not user:
+    if not admin:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid Username"
         )
     ##we have set password related code in hashing.py
-    ##in models.py class User,
+    ##in models.py class Admin,
         ##password Column is already defined
     #Hasher in hashing.py we have verify_password
     #so calling it
-    if not Hasher.verify_password(form_data.password, user.password):
+    if not Hasher.verify_password(form_data.password, admin.password):
         ##in hasher.py's verify_password
             # we have: return pwd_context.verify(plain_password, hash_password)
             #so using similar approach
@@ -52,4 +52,4 @@ def retrieve_token_after_authentication(
     jwt_token = jwt.encode(data, setting.SECRET_KEY, algorithm=setting.ALGORITHM)
         #pulling SECURITY_KEY, ALGORITHM from config
     return {"access_token": jwt_token, "token_type": "bearer"}
-        #bearer as our token holds actual data,
+        #bearer as our token holds actual data

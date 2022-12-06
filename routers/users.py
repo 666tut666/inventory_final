@@ -10,10 +10,10 @@ router=APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get()
+
 @router.post(
-    "/register",
-    tags=['user','staff'],
+    "/register_user",
+    tags=['user'],
     response_model=ShowUser
 )
 def register(

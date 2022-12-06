@@ -27,3 +27,24 @@ async def create_an_item(request: Request):
             }
         )
     #{....} passing context dict, request and showing error
+
+
+@router.post(
+    "/register",
+    tags=['admin'],
+    response_model=ShowAdmin
+)
+def create_admin(
+        admin: AdminCreate,
+        db: Session = Depends(get_db)
+):
+    admin = Admin(
+        email=admin.email,
+        password=Hasher.get_hash_password(admin.password),
+        admin_id=admin.admin_id
+        #admin_type_id=admin.admin_type_id
+    )
+    db.add(admin)
+    db.commit()
+    db.refresh(admin)
+    return admin

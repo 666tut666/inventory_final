@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends, responses, status
 from fastapi.templating import Jinja2Templates
-from db.models import User
+from db.models import Admin
 from config.hashing import Hasher
 from sqlalchemy.orm import Session
 from db.database import get_db
@@ -14,15 +14,15 @@ router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/user_register")
+@router.get("/register")
 def registration(request: Request):
     return templates.TemplateResponse(
-        "user_register.html",
+        "admin_register.html",
         {"request": request}
     )
 
 
-@router.post("/user_register")
+@router.post("/register")
 ##even if we have same link and function
 ##we are using post and get
 ##so it`s kk
@@ -38,16 +38,16 @@ async def registration(
     if len(password) < 6:
         errors.append("password must be more than 6 characters")
         return templates.TemplateResponse(
-            "user_register.html",
+            "admin_register.html",
             {"request": request, "errors": errors}
         )
-            #error aayae user_register.html reload huncha
-    user = User(email=email, password=Hasher.get_hash_password(password))
+            #error aayae admin_register.html reload huncha
+    admin = Admin(email=email, password=Hasher.get_hash_password(password))
 
     try:
-        db.add(user)
+        db.add(admin)
         db.commit()
-        db.refresh(user)
+        db.refresh(admin)
         return responses.RedirectResponse(
             "/?msg=successfully registered",
             status_code=status.HTTP_302_FOUND
@@ -55,6 +55,6 @@ async def registration(
     except IntegrityError:
         errors.append("Email already exists")
         return templates.TemplateResponse(
-            "user_register.html",
+            "admin_register.html",
             {"request": request, "errors": errors}
         )
