@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from schemas.schemas import AdminCreate, ShowAdmin
+from db.schemas.schema import AdminCreate, ShowAdmin
 from db.database import get_db
 from config.hashing import Hasher
-from db.models import Admin, User, AdminType
+from db.models import Admin
 from typing import List
 
 router=APIRouter()

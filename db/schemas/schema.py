@@ -47,7 +47,6 @@ class RequestStatus(BaseModel):
 class StaffCreate(BaseModel):
     email: EmailStr
     password: str
-    staff_id: Optional[int]
 
 
 class ShowStaff(BaseModel):

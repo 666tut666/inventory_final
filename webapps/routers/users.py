@@ -43,6 +43,7 @@ async def registration(
         )
             #error aayae user_register.html reload huncha
     user = User(email=email, password=Hasher.get_hash_password(password))
+
     try:
         db.add(user)
         db.commit()

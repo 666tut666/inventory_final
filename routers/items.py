@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from schemas.items import ItemCreate, ShowItem
+from db.schemas.items import ItemCreate, ShowItem
 from db.models import Item,User
 from datetime import datetime
 from sqlalchemy.orm import Session

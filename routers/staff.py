@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
-from schemas.schemas import StaffCreate, ShowStaff
+from db.schemas.schema import StaffCreate, ShowStaff
 from fastapi.templating import Jinja2Templates
 from db.database import get_db
 from config.hashing import Hasher
@@ -11,7 +11,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 @router.post(
-    "/register",
+    "/staff",
     tags=['staff'],
     response_model=ShowStaff
 )
@@ -30,13 +30,13 @@ def create_staff(
     return staff
 
 
-@router.post(
+@router.get(
     "/staff",
     tags=["staff"]
 )
 def get_staff(request: Request):
     return templates.TemplateResponse(
-        "staff.html",
+        "user_register.html",
         {"request": request}
     )
 
