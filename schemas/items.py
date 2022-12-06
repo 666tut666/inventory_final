@@ -10,6 +10,8 @@ class ItemCreate(BaseModel):
     quantity: int
     #id: Optional[int]
 
+    class Config:
+        orm_mode=True
 
     #class Config:
         #orm_mode=True

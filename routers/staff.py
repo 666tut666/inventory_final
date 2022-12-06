@@ -11,7 +11,7 @@ templates = Jinja2Templates(directory="templates")
 
 
 @router.post(
-    "/staff",
+    "/register",
     tags=['staff'],
     response_model=ShowStaff
 )
