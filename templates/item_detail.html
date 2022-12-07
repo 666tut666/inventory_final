@@ -14,18 +14,27 @@
      			 <td>{{item.title}}</td>
     		</tr>
     		<tr>
-      			<th scope="row">Description</th>
-      			<td>{{item.description}}</td>
+      			<th scope="row">Item Type</th>
+      			<td>{{item.item_type}}</td>
     		</tr>
     		<tr>
       			<th scope="row">Date Posted</th>
-      			<td colspan="2">{{item.date_posted}}</td>
+      			<td colspan="2">{{item.creation_date}}</td>
     		</tr>
 			<tr>
-				<th scope="row">Owner</th>
-				<td colspan="2">{{ user.email }}</td>
+				<th scope="row">Quantity</th>
+				<td colspan="2">{{item.quantity}}</td>
+			</tr>
+		  	<tr>
+				<th scope="row">Category</th>
+				<td colspan="2">{{item.category}}</td>
+			</tr>
+		  <tr>
+				<th scope="row">Owner id</th>
+				<td colspan="2">{{item.owner_id}}</td>
 			</tr>
 		  </tbody>
 	    </table>
+		<a href="/pending" class="btn btn-primary">Request Item</a>
 	</div>
 {% endblock %}

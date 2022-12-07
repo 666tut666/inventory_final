@@ -10,6 +10,7 @@ class User(Base):
     email = Column(String(50), unique=True, index=True)
     password = Column(String(100))
     creation_date = Column(Date)
+    #activation_date = Column(Date, nullable=True)
     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
     status_type_id = Column(Integer, ForeignKey("status_type.id"))
     role_id= Column(Integer, ForeignKey("role.id"))

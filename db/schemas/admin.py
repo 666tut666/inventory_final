@@ -5,7 +5,7 @@ from typing import Optional
 class AdminCreate(BaseModel):
     email: EmailStr
     password: str
-    #user_id: Optional[int]
+    owner_id: Optional[int]
     admin_id: Optional[int]
     #admin_type_id: int
 
