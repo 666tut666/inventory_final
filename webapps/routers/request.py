@@ -15,11 +15,17 @@ def request_item(request: Request):
     )
 
 
-#@router.post("/request_item")
-#async def request(
-#        response: Response,
-#        request: Request,
-#        db: Session = Depends(get_db)
-#):
-#    form = await request.form()
-#   title = form.get("item")
+@router.post("/request_item")
+async def request(
+        response: Response,
+        request: Request,
+        db: Session = Depends(get_db)
+):
+    form = await request.form()
+    quantity = form.get("quantity")
+    errors = []
+    if int(quantity) < 1:
+        errors.append("Sorry the item is out of stock")
+        return  templates.TemplateResponse(
+            "item_hp"
+        )

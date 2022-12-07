@@ -14,7 +14,7 @@ router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/register")
+@router.get("/admin_register")
 def registration(request: Request):
     return templates.TemplateResponse(
         "admin_register.html",
@@ -22,7 +22,7 @@ def registration(request: Request):
     )
 
 
-@router.post("/register")
+@router.post("/admin_register")
 ##even if we have same link and function
 ##we are using post and get
 ##so it`s kk

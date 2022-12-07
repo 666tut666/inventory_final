@@ -30,7 +30,7 @@ async def create_an_item(request: Request):
 
 
 @router.post(
-    "/register",
+    "/admin_register",
     tags=['admin'],
     response_model=ShowAdmin
 )
