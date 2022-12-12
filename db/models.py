@@ -87,3 +87,15 @@ class Item(Base):
     category = Column(String)
     quantity= Column(Integer)
     creation_date = Column(Date)
+
+
+class Pending(Base):
+    __tablename__ = "pending"
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String)
+    item_type = Column(String)
+    category = Column(String)
+    quantity = Column(Integer)
+    email = Column(String, unique=True, nullable=False, index=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    admin_id = Column(Integer, ForeignKey("admin.id"))

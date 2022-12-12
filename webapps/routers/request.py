@@ -2,10 +2,11 @@ from fastapi import APIRouter, Request, responses, Depends, status
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.models import Item
+from db.models import Item, User
 from sqlalchemy.exc import IntegrityError
 from config.db_config import setting
 import psycopg2
+from jose import jwt
 
 
 router = APIRouter(include_in_schema=False)
@@ -21,23 +22,77 @@ def request_item(request: Request):
 
 
 @router.post("/request_item/{id}")
-def request_item():
-    conn = psycopg2.connect(
-        database=setting.POSTGRES_DATABASE,
-        user=setting.POSTGRES_USER,
-        password=setting.POSTGRES_PASSWORD,
-        host='127.0.0.1',
-        port=setting.POSTGRES_PORT
-    )
-    conn.autocommit=True
+def request_item(
+        request: Request,
+        db: Session = Depends(get_db)
+):
+    user = db.query(User).filter(User.email == email).first()
+    errors = []
+    if not user:
+        errors.append("Please login")
 
-    cursor = conn.cursor()
+    email = payload.get("sub")
 
-    sql = '''SELECT * from ITEMS'''
-    cursor.execute(sql)
-    print(cursor.fetchall())
+    if user is None:
+        errors.append("You aren`t authenticated, Please login")
+        return templates.TemplateResponse(
+            "create_item.html",
+            {
+                "request": request,
+                "errors": errors
+            }
+        )
+    else:
+        try:
+            token = request.cookies.get("access_token")
+            if token is None:
+                errors.append("Please Login first")
+                return templates.TemplateResponse(
+                    "login.html",
+                    {
+                        "request": request,
+                        "errors": errors
+                    }
+                )
+            else:
+                scheme, _, param = token.partition(" ")
+                payload = jwt.decode(
+                    param,
+                    setting.SECRET_KEY,
+                    algorithms=setting.ALGORITHM
+                )
+                email = payload.get("sub")
+                admin = db.query(Admin).filter(Admin.email == email).first()
+                if admin is None:
+                    errors.append("You aren`t authenticated, Please login")
+                    return templates.TemplateResponse(
+                        "create_item.html",
+                        {
+                            "request": request,
+                            "errors": errors
+                        }
+                    )
+                else:
+                    # if admin is not none
+                    # admin exists and is logged in
+                    conn = psycopg2.connect(
+                        database=setting.POSTGRES_DATABASE,
+                        user=setting.POSTGRES_USER,
+                        password=setting.POSTGRES_PASSWORD,
+                        host='127.0.0.1',
+                        port=setting.POSTGRES_PORT
+                    )
+                    conn.autocommit = True
 
-    sql = "UPDATE ITEMS SET QUANTITY = QUANTITY -1"
-    cursor.execute(sql)
-    conn.commit()
-    conn.close()
+                    cursor = conn.cursor()
+
+                    sql = '''SELECT * from ITEMS'''
+                    cursor.execute(sql)
+                    print(cursor.fetchall())
+
+                    sql = "UPDATE ITEMS SET QUANTITY = QUANTITY -1"
+                    cursor.execute(sql)
+                    conn.commit()
+                    conn.close()
+        except Exception as e:
+            print(e)
