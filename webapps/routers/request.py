@@ -1,9 +1,8 @@
-from fastapi import APIRouter, Request, responses, Depends, status
+from fastapi import APIRouter, Request, Depends, status
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db.models import Item, User
-from sqlalchemy.exc import IntegrityError
 from config.db_config import setting
 import psycopg2
 from jose import jwt
