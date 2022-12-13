@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends, status
+from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from db.database import get_db

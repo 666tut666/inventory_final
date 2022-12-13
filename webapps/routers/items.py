@@ -5,7 +5,6 @@ from fastapi.templating import Jinja2Templates
 from db.models import Item, User, Admin
 from sqlalchemy.orm import Session
 from db.database import get_db
-from typing import Optional
 from jose import jwt
 from config.db_config import setting
 
