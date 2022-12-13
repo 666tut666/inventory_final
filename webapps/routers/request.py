@@ -98,3 +98,11 @@ def request_item(
                     conn.close()
         except Exception as e:
             print(e)
+@router.get("/pending")
+def create_an_item(
+        request: Request
+):
+    return templates.TemplateResponse(
+        "pending.html",
+        {"request": request}
+    )
