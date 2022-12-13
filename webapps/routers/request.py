@@ -9,11 +9,11 @@ import psycopg2
 from jose import jwt
 
 
-router = APIRouter(include_in_schema=False)
+router = APIRouter(include_in_schema=False  )
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/request_item")
+@router.get("/request_item/{id}",tags=["items"])
 def request_item(request: Request):
     return templates.TemplateResponse(
         "request_item.html",
@@ -21,11 +21,13 @@ def request_item(request: Request):
     )
 
 
-@router.post("/request_item/{id}")
+@router.post("/request_item/{id}",tags=["items"])
 def request_item(
         request: Request,
+        id: int,
         db: Session = Depends(get_db)
 ):
+    item = db.query(Item).filter(Item.id==id).first
     user = db.query(User).filter(User.email == email).first()
     errors = []
     if not user:

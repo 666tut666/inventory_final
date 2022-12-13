@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from db.schemas.items import ItemCreate, ShowItem
 from db.models import Item,User
 from datetime import datetime
+
+from fastapi import APIRouter
 from sqlalchemy.orm import Session
 from db.database import get_db
 from config.db_config import setting
@@ -34,23 +36,12 @@ def get_user_from_token(db, token):
         )
     return user
 
-@router.post(
-    "/item",
-    tags=["items"],
-    response_model=ShowItem
-)
-def create_item(
-        item: ItemCreate,
-        db: Session = Depends(get_db)
-):
-    creation_date = datetime.now().date()
-    #owner_id = 1
-    item = Item(
-        **item.dict(),
-        creation_date=creation_date,
-        #owner_id=owner_id
-    )
-    db.add(item)
-    db.commit()
-    db.refresh(item)
+@router.get("/item/{id}", tags=["request"])
+def retrieve_item_by_id(id, db: Session = Depends(get_db)):
+        #get_db as we need to retrieve id from the database
+    item = db.query(Item).filter(Item.id==id).first()
+        #filter to filter whatever
+        #.first to return first item
+    if not item:    ##if item is null
+        raise HTTPException(status_code=404, detail=f"Item {id} does not exist")
     return item
