@@ -10,7 +10,6 @@ from sqlalchemy.exc import IntegrityError
 router = APIRouter(include_in_schema=False)
     #include_in_schema=False
     #to remove routers as default
-    #in    swagger UI
 templates = Jinja2Templates(directory="templates")
 
 
