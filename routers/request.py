@@ -4,6 +4,7 @@ from db.models import Item,User
 from sqlalchemy.orm import Session
 from db.database import get_db
 from config.db_config import setting
+from jose import jwt
 
 
 router = APIRouter()
