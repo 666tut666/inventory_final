@@ -1,5 +1,7 @@
 import psycopg2
 
+sakkiyo
+
 def updateTable(mobileId, price):
     try:
         connection = psycopg2.connect(user="sysadmin",
