@@ -42,7 +42,7 @@ def create_admin(
         email=admin.email,
         password=Hasher.get_hash_password(admin.password),
         admin_id=admin.admin_id
-        #admin_type_id=admin.admin_type_id
+        admin_type_id=admin.admin_type_id
     )
     db.add(admin)
     db.commit()
