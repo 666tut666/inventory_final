@@ -14,8 +14,9 @@ def request_item():
     sql = '''SELECT * from ITEMS'''
     cursor.execute(sql)
     print(cursor.fetchall())
-
+    ???
     sql = "UPDATE ITEMS SET QUANTITY = QUANTITY -1"
+    ???
     cursor.execute(sql)
     conn.commit()
     conn.close()
