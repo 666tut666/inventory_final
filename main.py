@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from db.database import engine
 from db.models import Base
 from config.db_config import setting
-from routers import admin
+from routers import admin, users
 from routers import items
 from routers import login
 from routers import request
@@ -27,10 +27,12 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(admin.router)
 app.include_router(items.router)
+app.include_router(users.router)
 app.include_router(web_items.router)
 app.include_router(web_users.router)
 app.include_router(web_auth.router)
 app.include_router(request.router)
 app.include_router(login.router)
+
 
 

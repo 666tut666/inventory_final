@@ -2,7 +2,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.models import Admin
+from db.models import Admin, User
 from config.hashing import Hasher
 from jose import jwt
 from config.db_config import setting
@@ -25,11 +25,17 @@ def retrieve_token_after_authentication(
     ##as form data depends on the form itself, nothing passed in form data's Depends
     ##but the database session "db:Session", Depends on get_db
     admin = db.query(Admin).filter(Admin.email==form_data.username).first()
+    user = db.query(User).filter(User.email==form_data.username).first()
         #checking if the table has provided email
     if not admin:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid Username"
+            detail="Invalid Email"
+        )
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Email"
         )
     ##we have set password related code in hashing.py
     ##in models.py class Admin,
@@ -40,6 +46,15 @@ def retrieve_token_after_authentication(
         ##in hasher.py's verify_password
             # we have: return pwd_context.verify(plain_password, hash_password)
             #so using similar approach
+
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Password"
+        )
+    if not Hasher.verify_password(form_data.password, user.password):
+        ##in hasher.py's verify_password
+        # we have: return pwd_context.verify(plain_password, hash_password)
+        # so using similar approach
 
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

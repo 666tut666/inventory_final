@@ -21,7 +21,6 @@ def registration(request: Request):
         {"request": request}
     )
 
-
 @router.post("/user_register")
 ##even if we have same link and function
 ##we are using post and get
