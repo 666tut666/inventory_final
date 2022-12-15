@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request, Depends, Response
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from db.database import get_db
-from db.models import Admin
+from db.models import Admin, User
 from config.hashing import Hasher
 from jose import jwt
 from config.db_config import setting
@@ -40,12 +40,20 @@ async def login(
     try:
         # checking if email exists on db.
         admin = db.query(Admin).filter(Admin.email == email).first()
+        user = db.query(User).filter(User.email == email).first()
         if admin is None:
             errors.append("Email does not exist")
             return templates.TemplateResponse(
                 "login.html",
                 {"request": request, "errors": errors}
             )
+        if user is None:
+            errors.append("Email does not exist")
+            return templates.TemplateResponse(
+                "login.html",
+                {"request": request, "errors": errors}
+            )
+
             # returning login page again as
             # login was not successful
         else:
@@ -77,6 +85,29 @@ async def login(
                 return response
                 # value is Bearer <token>
                 # using Http only = True - notes ma explained cha
+
+            if Hasher.verify_password(password, user.password):
+                data = {"sub": email}
+
+                jwt_token = jwt.encode(
+                    data,
+                    setting.SECRET_KEY,
+                    algorithm=setting.ALGORITHM
+                )
+
+                msg = "Login Success"
+                response = templates.TemplateResponse(
+                    "login.html",
+                    {"request": request, "msg": msg}
+                )
+                response.set_cookie(
+                    key="access_token",
+                    value=f"Bearer {jwt_token}",
+                    httponly=True
+                )
+                return response
+
+
 
             else:
                 errors.append("Invalid Password")
