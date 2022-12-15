@@ -31,6 +31,7 @@ class ShowItem(BaseModel):
     category: str
     quantity: int
     creation_date: date
+    id: int
 
     class Config:
         orm_mode=True
