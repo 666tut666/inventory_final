@@ -9,7 +9,7 @@ class Settings:
     TITLE="Inventory Management using FastAPI"
     VERSION="0.0.1"
     DESCRIPTION="testing"
-    NAME="user"
+    NAME="Creator"
     EMAIL="samipya95@gmail.com"
 
     POSTGRES_USER = os.getenv("POSTGRES_USER")
