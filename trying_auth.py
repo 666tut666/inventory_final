@@ -26,6 +26,7 @@ async def create_an_item(
         request: Request,
         db: Session = Depends(get_db)
 ):
+       errors = []
        try:
         token = request.cookies.get("access_token")
         if token is None:

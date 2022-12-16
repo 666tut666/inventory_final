@@ -119,10 +119,10 @@ def update_item_by_id(
     if not existing_item.first():
             #.first() to fetch details
         return {"Message": f"Item ID {id} has no details "}
-    if existing_item.first().owner_id == admin.id:
+    if existing_item.first().id > 0:
         existing_item.update(jsonable_encoder(item))
         db.commit()
-        return {"message": f"details for {id} Successfully Updated"}
+        return {"message": "details Successfully Updated"}
     else:
         return {"message": "you aren`t authorized"}
 
@@ -139,7 +139,7 @@ def delete_item_by_id(
     if not existing_item.first():
             #.first() to fetch details
         return {"Message": f"Item ID {id} has no details "}
-    if existing_item.first().owner_id == user.id:
+    if existing_item.first().id >0:
         existing_item.delete()
         db.commit()
         return {"message": f"Item id: {id} Successfully Deleted"}
