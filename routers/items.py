@@ -13,6 +13,31 @@ from jose import jwt
 
 router = APIRouter()
 
+def get_admin_from_token(db, token):
+    ##using try block
+    try:
+        payload = jwt.decode(token, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
+        username = payload.get("sub")
+        # data is dictionary,
+        # payload.get is a dictionary method to get data.
+        if username is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Unable to verify"
+            )
+        admin = db.query(Admin).filter(Admin.email == username).first()
+        if admin is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="email is not in our database"
+            )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unable to verify"
+        )
+    return admin
+
 def get_user_from_token(db, token):
     ##using try block
     try:
@@ -88,13 +113,13 @@ def update_item_by_id(
         db:Session=Depends(get_db),
         token:str=Depends(oath2_scheme)
 ):
-    user = get_user_from_token(db, token)
+    admin = get_admin_from_token(db, token)
     existing_item = db.query(Item).filter(Item.id==id)
         #it only returns query
     if not existing_item.first():
             #.first() to fetch details
         return {"Message": f"Item ID {id} has no details "}
-    if existing_item.first().owner_id == user.id:
+    if existing_item.first().owner_id == admin.id:
         existing_item.update(jsonable_encoder(item))
         db.commit()
         return {"message": f"details for {id} Successfully Updated"}

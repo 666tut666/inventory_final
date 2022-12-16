@@ -41,7 +41,23 @@
 			</tr>
 		  </tbody>
 	    </table>
-		<a href="/pending" class="btn btn-primary">Request Item</a>
 	</div>
+    <div class="container">
+          {% if msg %}
+                <div class="alert alert-success" role="success">
+                    {{ msg }}
+                </div>
+          {% endif %}
+          {% for error in errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+          {% endfor %}
+
+          <form method="post">
+
+                <a href="/pending" class="btn btn-primary">Request Item</a>
+      	  </form>
+    </div>
   </form>
 {% endblock %}
