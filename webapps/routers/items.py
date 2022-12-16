@@ -80,9 +80,9 @@ async def create_an_item(
     if not title or len(title) < 2:
         errors.append("Title should be greater than two character")
     if not item_type or len(item_type) < 3:
-        errors.append("type should be be more than tree characters")
+        errors.append("type should be be more than three characters")
     if not quantity:
-        errors.append("Quantity should be be more than tree characters")
+        errors.append("Quantity should be be more than three characters")
     if not category or len(category) < 3:
         errors.append("Category should be be more than three characters")
 
