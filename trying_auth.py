@@ -1,6 +1,7 @@
 import datetime
 
 from fastapi import APIRouter, Request, Depends, responses, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.templating import Jinja2Templates
 from db.models import Item, User, Admin
 from sqlalchemy.orm import Session
@@ -74,3 +75,23 @@ async def create_an_item(
                 )
     except Exception as e:
         print(e)
+
+
+def update_item_by_id(
+        id:int,
+        item:ItemCreate,
+        db:Session=Depends(get_db),
+        token:str=Depends(oath2_scheme)
+):
+    user = get_user_from_token(db, token)
+    existing_item = db.query(Item).filter(Item.id==id)
+        #it only returns query
+    if not existing_item.first():
+            #.first() to fetch details
+        return {"Message": f"Item ID {id} has no details "}
+    if existing_item.first().owner_id == user.id:
+        existing_item.update(jsonable_encoder(item))
+        db.commit()
+        return {"message": f"details for {id} Successfully Updated"}
+    else:
+        return {"message": "you aren`t authorized"}
