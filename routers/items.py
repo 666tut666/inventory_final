@@ -71,19 +71,24 @@ def get_user_from_token(db, token):
 )
 def create_item(
         item: ItemCreate,
-        db: Session = Depends(get_db)
+        db: Session = Depends(get_db),
+        token:str=Depends(oath2_scheme)
 ):
-    creation_date = datetime.now().date()
-    #owner_id = 1
-    item = Item(
-        **item.dict(),
-        creation_date=creation_date,
-        #owner_id=owner_id
-    )
-    db.add(item)
-    db.commit()
-    db.refresh(item)
-    return item
+    admin = get_admin_from_token(db, token)
+    # it only returns query
+    if not admin:
+        return {"Message": "please login as admin"}
+    else:
+        creation_date = datetime.now().date()
+
+        item = Item(
+            **item.dict(),
+            creation_date=creation_date
+        )
+        db.add(item)
+        db.commit()
+        db.refresh(item)
+        return item
 
 
 @router.get("/item/all", tags=["items"], response_model=List[ShowItem])
