@@ -101,7 +101,7 @@ async def create_an_item(
 
     try:
         token = request.cookies.get("access_token")
-        if token is None:
+        if not token:
             errors.append("Please Login first")
             return templates.TemplateResponse(
                 "login.html",
@@ -110,14 +110,15 @@ async def create_an_item(
                     "errors":errors
                 }
             )
-        else:
-            scheme, _, param = token.partition(" ")
-            payload = jwt.decode(
-                param,
-                setting.SECRET_KEY,
-                algorithms=setting.ALGORITHM
+        scheme, _, param = token.partition(" ")
+        payload = jwt.decode(param, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
+        email = payload.get("sub")
+        if email is None:
+            errors.append("Kindly login first, you are not authenticated")
+            return templates.TemplateResponse(
+                "login.html", {"request": request, "errors": errors}
             )
-            email = payload.get("sub")
+        else:
             admin = db.query(Admin).filter(Admin.email==email).first()
             if admin is None:
                 errors.append("You aren`t authenticated, Please login")
@@ -144,7 +145,6 @@ async def create_an_item(
                 db.refresh(item)
                 return responses.RedirectResponse(
                     f"/detail/{item.id}",
-                    status_code=status.HTTP_302_FOUND
                 )
     except Exception as e:
         print(e)
