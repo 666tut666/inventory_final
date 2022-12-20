@@ -69,7 +69,7 @@ def get_user_from_token(db, token):
     tags=["items"],
     response_model=ShowItem
 )
-def create_item(
+def create_an_item(
         item: ItemCreate,
         db: Session = Depends(get_db),
         token:str=Depends(oath2_scheme)
