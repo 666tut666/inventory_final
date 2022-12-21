@@ -64,6 +64,8 @@ async def create_an_item(
         request: Request,
         db: Session = Depends(get_db)
 ):
+
+
     form = await request.form()
     #id = Optional[form.get("id")]
     title = form.get("title")
@@ -143,9 +145,14 @@ async def create_an_item(
                 db.add(item)
                 db.commit()
                 db.refresh(item)
-                return responses.RedirectResponse(
-                    f"/detail/{item.id}",
+
+                return templates.TemplateResponse(
+                    "item_added.html",
+                    {
+                        "request": request
+                    }
                 )
+
     except Exception as e:
         print(e)
 

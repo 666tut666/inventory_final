@@ -1,5 +1,3 @@
-not authenticated error
-
 @router.post("/create-an-item")
 async def create_an_item(
         request: Request,
@@ -42,29 +40,35 @@ async def create_an_item(
 
     try:
         token = request.cookies.get("access_token")
-        if token is None:
-            errors.append("please login as admin")
+        if not token:
+            errors.append("Please Login first")
             return templates.TemplateResponse(
-                "create_item.html",
+                "login.html",
                 {
-                    "request": request,
-                    "errors": errors
+                    "request":request,
+                    "errors":errors
                 }
             )
         scheme, _, param = token.partition(" ")
         payload = jwt.decode(param, setting.SECRET_KEY, algorithms=setting.ALGORITHM)
         email = payload.get("sub")
+        print(token)
+        print(email)
         if email is None:
             errors.append("Kindly login first, you are not authenticated")
             return templates.TemplateResponse(
-                "create_item.html", {"request": request, "errors": errors}
+                "login.html", {"request": request, "errors": errors}
             )
         else:
-            admin = db.query(Admin).filter(Admin.email == email).first()
+            admin = db.query(Admin).filter(Admin.email==email).first()
             if admin is None:
-                errors.append("You are not authenticated, Kindly Login")
+                errors.append("You aren`t authenticated, Please login")
                 return templates.TemplateResponse(
-                    "create_item.html", {"request": request, "errors": errros}
+                    "create_item.html",
+                    {
+                        "request":request,
+                        "errors":errors
+                    }
                 )
             else:
                 #if admin is not none
@@ -84,12 +88,4 @@ async def create_an_item(
                     f"/detail/{item.id}",
                 )
     except Exception as e:
-        errors.append("Something is wrong !")
         print(e)
-        return templates.TemplateResponse(
-            "create_item.html",
-            {
-                "request": request,
-                "errors": errors
-            }
-        )

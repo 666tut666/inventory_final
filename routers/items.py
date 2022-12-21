@@ -65,7 +65,7 @@ def get_user_from_token(db, token):
 
 
 @router.post(
-    "/create-an-item",
+    "/create-an-item-backend",
     tags=["items"],
     response_model=ShowItem
 )
