@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    <title>Delete item</title>
+{%endblock%}
+
+{% block content %}
+    <div class="table table-dark table-sm">
+        <h3>Delete Item</h3>
+        {% for error in errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+                <a class="btn btn-primary" href="/login" role="button">Login</a>
+            </div>
+        {% endfor %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+{%endblock%}

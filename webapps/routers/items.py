@@ -158,3 +158,120 @@ def create_an_item(
         {"request": request}
     )
 
+@router.get("/delete-item")
+def items_to_delete(
+        request:Request,
+        db:Session=Depends(get_db)
+):
+    errors = []
+    token = request.cookies.get("access_token")
+    if token is None:
+        errors.append("please login as admin")
+        return templates.TemplateResponse(
+            "item_to_delete.html",
+            {
+                "request": request,
+                "errors": errors
+            }
+        )
+    return templates.TemplateResponse(
+        "item_to_delete.html",
+        {"request":request}
+    )
+
+@router.get("/request-item")
+def request_item(request: Request):
+    errors = []
+    token = request.cookies.get("access_token")
+    if token is None:
+        errors.append("please login")
+        return templates.TemplateResponse(
+            "request_item.html",
+            {
+                "request": request,
+                "errors": errors
+            }
+        )
+    return templates.TemplateResponse(
+        "request_item.html",
+        {"request": request}
+    )
+
+
+@router.post("/request-item/{id}",tags=["items"])
+def request_item(
+        request: Request,
+        id: int,
+        db: Session = Depends(get_db)
+):
+    item = db.query(Item).filter(Item.id==id).first
+    user = db.query(User).filter(User.email == email).first()
+    errors = []
+    if not user:
+        errors.append("Please login")
+
+    email = payload.get("sub")
+
+    if user is None:
+        errors.append("You aren`t authenticated, Please login")
+        return templates.TemplateResponse(
+            "create_item.html",
+            {
+                "request": request,
+                "errors": errors
+            }
+        )
+    else:
+        try:
+            token = request.cookies.get("access_token")
+            if token is None:
+                errors.append("Please Login first")
+                return templates.TemplateResponse(
+                    "login.html",
+                    {
+                        "request": request,
+                        "errors": errors
+                    }
+                )
+            else:
+                scheme, _, param = token.partition(" ")
+                payload = jwt.decode(
+                    param,
+                    setting.SECRET_KEY,
+                    algorithms=setting.ALGORITHM
+                )
+                email = payload.get("sub")
+                admin = db.query(Admin).filter(Admin.email == email).first()
+                if admin is None:
+                    errors.append("You aren`t authenticated, Please login")
+                    return templates.TemplateResponse(
+                        "create_item.html",
+                        {
+                            "request": request,
+                            "errors": errors
+                        }
+                    )
+                else:
+                    # if admin is not none
+                    # admin exists and is logged in
+                    conn = psycopg2.connect(
+                        database=setting.POSTGRES_DATABASE,
+                        user=setting.POSTGRES_USER,
+                        password=setting.POSTGRES_PASSWORD,
+                        host='127.0.0.1',
+                        port=setting.POSTGRES_PORT
+                    )
+                    conn.autocommit = True
+
+                    cursor = conn.cursor()
+
+                    sql = '''SELECT * from ITEMS'''
+                    cursor.execute(sql)
+                    print(cursor.fetchall())
+
+                    sql = "UPDATE ITEMS SET QUANTITY = QUANTITY -1"
+                    cursor.execute(sql)
+                    conn.commit()
+                    conn.close()
+        except Exception as e:
+            print(e)
