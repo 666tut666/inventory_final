@@ -16,19 +16,27 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+                <th scope="col">SN</th>
+              <th scope="col">Item ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Item Type</th>
+              <th scope="col">Date Posted</th>
+              <th scope="col">Quantity</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
+            {% for item in items %}
+                <tr>
+                  <th scope="row">{{ loop.index }}</th>
+                  <td>{{item.id}}</td>
+                  <td>{{item.title}}</td>
+                  <td>{{item.item_type}}</td>
+                  <td>{{item.creation_date}}</td>
+                  <td>{{item.quantity}}</td>
+                  <td>{{item.category}}</td>
+                  <td><button type="button" class="btn btn-danger">Delete</td>
+                </tr>
+            {%endfor%}
           </tbody>
         </table>
     </div>

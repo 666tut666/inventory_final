@@ -174,10 +174,31 @@ def items_to_delete(
                 "errors": errors
             }
         )
-    return templates.TemplateResponse(
-        "item_to_delete.html",
-        {"request":request}
-    )
+
+    else:
+        try:
+            scheme, _, param = token.partition(" ")
+            payload = jwt.decode(
+                param, setting.SECRET_KEY, algorithms=setting.ALGORITHM
+            )
+            email = payload.get("sub")
+            print(email)
+            admin = db.query(Admin).filter(Admin.email == email).first()
+            items = db.query(Item).all()
+            return templates.TemplateResponse(
+                "item_to_delete.html", {"request": request, "items": items}
+            )
+        except Exception as e:
+            print(e)
+            errors.append("You are not Authenticated")
+            return templates.TemplateResponse(
+                "item_to_delete.html",
+                {"request": request, "errors": errors},
+            )
+
+
+
+
 
 @router.get("/request-item")
 def request_item(request: Request):
