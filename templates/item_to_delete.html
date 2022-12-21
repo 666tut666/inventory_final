@@ -34,10 +34,18 @@
                   <td>{{item.creation_date}}</td>
                   <td>{{item.quantity}}</td>
                   <td>{{item.category}}</td>
-                  <td><button type="button" class="btn btn-danger">Delete</td>
+                  <td><button type="button" class="btn btn-danger" onclick="delete_item({{item.id}})">Delete</td>
                 </tr>
             {%endfor%}
           </tbody>
         </table>
     </div>
 {%endblock%}
+{% block script %}
+    <script>
+        function delete_item(id)
+        {
+            fetch("/item/delete/"+id, {method:'DELETE'})
+        }
+    </script>
+{% endblock %}

@@ -1,13 +1,14 @@
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from db.database import get_db
 from db.models import Admin, User
 from config.hashing import Hasher
 from jose import jwt
 from config.db_config import setting
+from config.utils import OAuth2PasswordBearerWithCookie
 
-oath2_scheme = OAuth2PasswordBearer(tokenUrl='/login/token')
+oath2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl='/login/token')
 # Oath2 session created
 # tokenUrl to give route for the token
 
@@ -19,6 +20,7 @@ router = APIRouter()
     tags=["login"]
 )
 def retrieve_token_after_authentication(
+        response:Response,
         form_data: OAuth2PasswordRequestForm = Depends(),
         db:Session = Depends(get_db)
 ):
@@ -66,5 +68,6 @@ def retrieve_token_after_authentication(
             ##as sub is unique key so is our username(which is email)
     jwt_token = jwt.encode(data, setting.SECRET_KEY, algorithm=setting.ALGORITHM)
         #pulling SECURITY_KEY, ALGORITHM from config
+    response.set_cookie(key="access_token", value=f"Bearer {jwt_token}", httponly=True)
     return {"access_token": jwt_token, "token_type": "bearer"}
         #bearer as our token holds actual data
