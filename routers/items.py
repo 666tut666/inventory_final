@@ -143,7 +143,7 @@ def delete_item_by_id(
         # it only returns query
     if not existing_item.first():
             #.first() to fetch details
-        return {"Message": f"Item ID {id} has no details "}
+        return {"message": f"Item ID {id} has no details "}
     if existing_item.first().id >0:
         existing_item.delete()
         db.commit()

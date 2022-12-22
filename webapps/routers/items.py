@@ -309,5 +309,5 @@ def request_item(
 def search_jobs(request: Request, query: Optional[str], db: Session = Depends(get_db)):
     items = db.query(Item).filter(Item.title.contains(query)).all()
     return templates.TemplateResponse(
-        "item_homepage.html", {"request": request, "items": items}
+        "item_hp.html", {"request": request, "items": items}
     )
