@@ -5,7 +5,7 @@
 {%endblock%}
 
 {% block content %}
-    <div class="table table-dark table-sm">
+    <div class="table">
         <h3>Delete Item</h3>
         {% for error in errors %}
             <div class="alert alert-danger" role="alert">
@@ -13,6 +13,7 @@
                 <a class="btn btn-primary" href="/login" role="button">Login</a>
             </div>
         {% endfor %}
+        <div id="result"></div>
         <table class="table">
           <thead>
             <tr>
@@ -41,11 +42,17 @@
         </table>
     </div>
 {%endblock%}
+<!-- using JavaScript below to use backend route -->
+<!-- src: https://youtu.be/dZ3cgCGJu4I?t=1496 -->
+
 {% block script %}
-    <script>
-        function delete_item(id)
-        {
-            fetch("/item/delete/"+id, {method:'DELETE'})
-        }
-    </script>
-{% endblock %}
+
+	<script type="text/javascript">
+		function delete_item(id)
+		{
+			fetch("/item/delete/"+id, {method:'DELETE'})
+			.then(response => response.json())
+			.then(data => document.getElementById("result").innerHTML = data.message)
+		}
+	</script>
+{% endblock %} %}

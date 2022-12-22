@@ -1,5 +1,5 @@
 import datetime
-
+from typing import Optional
 from fastapi import APIRouter, Request, Depends, responses, status
 from fastapi.templating import Jinja2Templates
 from db.models import Item, User, Admin
@@ -303,3 +303,11 @@ def request_item(
                     conn.close()
         except Exception as e:
             print(e)
+
+
+@router.get("/search")
+def search_jobs(request: Request, query: Optional[str], db: Session = Depends(get_db)):
+    items = db.query(Item).filter(Item.title.contains(query)).all()
+    return templates.TemplateResponse(
+        "item_homepage.html", {"request": request, "items": items}
+    )
