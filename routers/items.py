@@ -160,7 +160,7 @@ def autocomplete(term: Optional[str] = None, db: Session = Depends(get_db)):
     items = db.query(Item).filter(Item.title.contains(term)).all()
     ##pull title from^^^^Item and fetch all item that match
     suggestions = []
-    ##^^^ sug to show in search
+    ##^^^ sug to show results in search
     for item in items:
         suggestions.append(item.title)
     return suggestions
