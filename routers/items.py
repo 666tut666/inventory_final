@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from config.db_config import setting
 from routers.login import oath2_scheme
-from typing import List
+from typing import List, Optional
 from fastapi.encoders import jsonable_encoder
 from jose import jwt
 
@@ -150,3 +150,17 @@ def delete_item_by_id(
         return {"message": f"Item id: {id} Successfully Deleted"}
     else:
         return {"message": "you aren`t authorized"}
+
+
+
+##doing search function for navbar
+@router.get("/item/autocomplete")
+def autocomplete(term: Optional[str] = None, db: Session = Depends(get_db)):
+    #we`ll pull ^^^^ frm search 2 vvvvvvvvvvvvvvvvvvvv  and search
+    items = db.query(Item).filter(Item.title.contains(term)).all()
+    ##pull title from^^^^Item and fetch all item that match
+    suggestions = []
+    ##^^^ sug to show in search
+    for item in items:
+        suggestions.append(item.title)
+    return suggestions
