@@ -14,15 +14,17 @@
             </div>
         {% endfor %}
         <div id="result"></div>
-        <table class="table">
+        <table id="datatable" class="table table-striped">
           <thead>
             <tr>
                 <th scope="col">SN</th>
-              <th scope="col">Item ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Item Type</th>
-              <th scope="col">Date Posted</th>
-              <th scope="col">Quantity</th>
+                <th scope="col">Item ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Item Type</th>
+                <th scope="col">Date Posted</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Category</th>
+                <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -45,8 +47,16 @@
 <!-- using JavaScript below to use backend route -->
 <!-- src: https://youtu.be/dZ3cgCGJu4I?t=1496 -->
 
-{% block script %}
 
+<!-- for beautifying table: https://datatables.net/ -->
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function()
+            {
+                $('#datatable').DataTable();
+            }
+        );
+    </script>
 	<script type="text/javascript">
 		function delete_item(id)
 		{
@@ -55,4 +65,5 @@
 			.then(data => document.getElementById("result").innerHTML = data.message)
 		}
 	</script>
-{% endblock %} %}
+<!-- for beautifying table: https://datatables.net/ -->
+{% endblock %}

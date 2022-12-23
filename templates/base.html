@@ -3,10 +3,13 @@
         <!-- CSS only -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- Jquery CSS -->
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css">
-	    <link rel="icon" href="{{url_for('static', path='images/favicon.ico')}}">
 
+        <!-- for beautifying table: https://datatables.net/ -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+	    <!-- for beautifying table: https://datatables.net/ -->
+
+        <link rel="icon" href="{{url_for('static', path='images/favicon.ico')}}">
         {% block title %}
         {% endblock %}
     </head>
@@ -26,7 +29,7 @@
             <!-- src-->
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
             {% block script %}
             {% endblock %}
             <script src="{{ url_for('static', path='js/autocomplete.js') }}"></script>
