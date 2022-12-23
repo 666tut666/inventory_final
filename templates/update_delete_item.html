@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    <title>Delete item</title>
+    <title>Update and Delete item</title>
 {%endblock%}
 
 {% block content %}
     <div class="table">
-        <h3>Delete Item</h3>
+        <h3 class="text-center">Update and/or Delete Item</h3>
         {% for error in errors %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}
@@ -37,7 +37,10 @@
                   <td>{{item.creation_date}}</td>
                   <td>{{item.quantity}}</td>
                   <td>{{item.category}}</td>
-                  <td><button type="button" class="btn btn-danger" onclick="delete_item({{item.id}})">Delete</td>
+                    <td><button type="button" class="btn btn-danger" onclick="delete_item({{item.id}})">Delete</button>
+                    <a href="/update-item/{{item.id}}" class="btn btn-primary">Update</a>
+                  </td>
+
                 </tr>
             {%endfor%}
           </tbody>

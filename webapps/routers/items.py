@@ -2,11 +2,14 @@ import datetime
 from typing import Optional
 from fastapi import APIRouter, Request, Depends, responses, status
 from fastapi.templating import Jinja2Templates
+from fastapi.encoders import jsonable_encoder
+from routers.login import oath2_scheme
 from db.models import Item, User, Admin
 from sqlalchemy.orm import Session
 from db.database import get_db
 from jose import jwt
 from config.db_config import setting
+from db.schemas.items import ItemCreate, ShowItem
 
 router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
@@ -27,6 +30,46 @@ def item_home(
             #item_hp.html is item`s home page
             ##gotta declare Request in Jinja
         ## as we have used item_hp, gotta define it there too
+
+#updating item
+# Method-1
+@router.put("/item/update/{id}", tags=["item"])
+def update_item_by_id(
+    id: int,
+    item: ItemCreate,
+    db: Session = Depends(get_db),
+    token: str = Depends(oath2_scheme),
+):
+    user = get_user_from_token(db, token)
+    existing_item = db.query(Item).filter(Item.id == id)
+    if not existing_item.first():
+        return {"message": f"No Details found for Item ID {id}"}
+    if existing_item.first().owner_id == user.id:
+        existing_item.update(jsonable_encoder(item))
+        db.commit()
+        return {"message": f"Details successfully updated for Item ID {id}"}
+    else:
+        return {"message": "You are not authorized"}
+
+
+# Method-2
+@router.put("/item/update1/{id}", tags=["item"])
+def update1_item_by_id(
+    id: int,
+    item: ItemCreate,
+    db: Session = Depends(get_db),
+    token: str = Depends(oath2_scheme),
+):
+    user = get_user_from_token(db, token)
+    existing_item = db.query(Item).filter(Item.id == id)
+    if not existing_item.first():
+        return {"message": f"No Details found for Item ID {id}"}
+    if existing_item.first().owner_id == user.id:
+        existing_item.update(item.__dict__)
+        db.commit()
+        return {"message": f"Details successfully updated for Item ID {id}"}
+    else:
+        return {"message": "You are not authorized"}
 
 
 @router.get("/detail/{id}")
@@ -165,7 +208,7 @@ def create_an_item(
         {"request": request}
     )
 
-@router.get("/delete-item")
+@router.get("/update-delete-item")
 def items_to_delete(
         request:Request,
         db:Session=Depends(get_db)
@@ -175,7 +218,7 @@ def items_to_delete(
     if token is None:
         errors.append("please login as admin")
         return templates.TemplateResponse(
-            "item_to_delete.html",
+            "update_delete_item.html",
             {
                 "request": request,
                 "errors": errors
@@ -193,13 +236,13 @@ def items_to_delete(
             admin = db.query(Admin).filter(Admin.email == email).first()
             items = db.query(Item).all()
             return templates.TemplateResponse(
-                "item_to_delete.html", {"request": request, "items": items}
+                "update_delete_item.html", {"request": request, "items": items}
             )
         except Exception as e:
             print(e)
             errors.append("You are not Authenticated")
             return templates.TemplateResponse(
-                "item_to_delete.html",
+                "update_delete_item.html",
                 {"request": request, "errors": errors},
             )
 
