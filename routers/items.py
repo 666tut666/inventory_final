@@ -91,6 +91,19 @@ def create_an_item(
         return item
 
 
+
+##doing search function for navbar
+@router.get("/item/autocomplete")
+def autocomplete(term: Optional[str] = None, db: Session = Depends(get_db)):
+    #we`ll pull ^^^^ frm search 2 vvvvvvvvvvvvvvvvvvvv  and search
+    items = db.query(Item).filter(Item.title.contains(term)).all()
+    ##pull title from^^^^Item and fetch all item that match
+    suggestions = []
+    ##^^^ sug to show results in search
+    for item in items:
+        suggestions.append(item.title)
+    return suggestions
+
 @router.get("/item/all", tags=["items"], response_model=List[ShowItem])
     #show item matra rakhda error aayo,
     #so, added List
@@ -152,15 +165,3 @@ def delete_item_by_id(
         return {"message": "you aren`t authorized"}
 
 
-
-##doing search function for navbar
-@router.get("/item/autocomplete")
-def autocomplete(term: Optional[str] = None, db: Session = Depends(get_db)):
-    #we`ll pull ^^^^ frm search 2 vvvvvvvvvvvvvvvvvvvv  and search
-    items = db.query(Item).filter(Item.title.contains(term)).all()
-    ##pull title from^^^^Item and fetch all item that match
-    suggestions = []
-    ##^^^ sug to show results in search
-    for item in items:
-        suggestions.append(item.title)
-    return suggestions
