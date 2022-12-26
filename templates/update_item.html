@@ -17,7 +17,7 @@
         <form method="post">
           <div class="mb-3">
             <label for="title" class="form-label">Item Title</label>
-            <input type="text" class="form-control" name="title" value="{{item.title}}" required placeholder="Enter Item Title">
+            <input type="text" class="form-control" id="title" name="title" value="{{item.title}}" required placeholder="Enter Item Title">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
@@ -50,9 +50,7 @@
 			var data = {}
 			data["title"] = document.getElementById("title").value
 			data["description"] = document.getElementById("description").value
-			fetch("/item/update/"+id, {method:'PUT',
-				  headers: {'Content-Type':'application/json',},
-				  body: JSON.stringify(data),})
+			fetch("/item/update/"+id, {method:'PUT',headers: {'Content-Type':'application/json',},body: JSON.stringify(data),})
 			.then(response => response.json())
 			.then(data => document.getElementById("result").innerHTML = data.message)
 		}

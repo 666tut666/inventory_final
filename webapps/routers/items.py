@@ -53,6 +53,7 @@ def item_home(
         ## as we have used item_hp, gotta define it there too
 
 #updating item
+
 # Method-1
 @router.put("/item/update/{id}", tags=["item"])
 def update_item_by_id(

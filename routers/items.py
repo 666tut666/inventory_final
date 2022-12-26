@@ -124,7 +124,7 @@ def retrieve_item_by_id(id, db: Session = Depends(get_db)):
 
 
 #using jsonable encoder
-@router.put("/item/update/{id}", tags=["items"])
+@router.put("/backend/item/update/{id}", tags=["items"])
 def update_item_by_id(
         id:int,
         item:ItemCreate,
