@@ -1,6 +1,6 @@
 import datetime
 from typing import Optional
-from fastapi import APIRouter, Request, Depends, responses, status
+from fastapi import APIRouter, Request, Depends, responses, status, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.encoders import jsonable_encoder
 from routers.login import oath2_scheme
@@ -17,6 +17,27 @@ templates = Jinja2Templates(directory="templates")
         ##templates.....
 
 
+def get_user_from_token(db, token):
+    try:
+        payload = jwt.decode(token, setting.SECRET_KEY, setting.ALGORITHM)
+        username = payload.get("sub")
+        if not username:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate Credentials",
+            )
+    except:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate Credentials",
+        )
+    user = db.query(User).filter(User.email == username).first()
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+        )
+    return user
 @router.get("/")
 def item_home(
         request: Request,
@@ -275,6 +296,10 @@ def request_item(
         id: int,
         db: Session = Depends(get_db)
 ):
+    scheme, _, param = token.partition(" ")
+    payload = jwt.decode(
+        param, setting.SECRET_KEY, algorithms=setting.ALGORITHM
+    )
     item = db.query(Item).filter(Item.id==id).first
     user = db.query(User).filter(User.email == email).first()
     errors = []
