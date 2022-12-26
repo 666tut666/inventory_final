@@ -17,27 +17,27 @@
         <form method="post">
           <div class="mb-3">
             <label for="title" class="form-label">Item Title</label>
-            <input type="text" class="form-control" id="title" name="title" value="{{item.title}}" required placeholder="Enter Item Title">
+            <input type="text" class="form-control" id="title" required required name="title" value="{{item.title}}" placeholder="Enter Item Title">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
             <label for="item_type" class="form-label">Item Type</label>
-            <input type="text" class="form-control" name="item_type" value="{{item.item_type}}" required placeholder="Enter Item Type">
+            <input type="text" class="form-control" required name="item_type" value="{{item.item_type}}" placeholder="Enter Item Type">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
             <label for="category" class="form-label">Item Category</label>
-            <input type="text" class="form-control" name="category" value="{{item.category}}" required placeholder="Enter Item Category">
+            <input type="text" class="form-control" required name="category" value="{{item.category}}" placeholder="Enter Item Category">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
             <label for="quantity" class="form-label">Item Quantity</label>
-            <input type="number" class="form-control" name="quantity" value="{{item.quantity}}" required placeholder="Enter Item Quantity">
+            <input type="number" class="form-control" required name="quantity" value="{{item.quantity}}" placeholder="Enter Item Quantity">
                 <!-- required is used -->
           </div>
 
           <div class="form-text">Enter item's description,in details</div>
-          <button type="submit" class="btn btn-primary">Update</button>
+          <button type="submit" class="btn btn-primary" onclick="update_item({{item.id}})">Update</button>
         </form>
 
     </div>
@@ -49,8 +49,15 @@
 		{
 			var data = {}
 			data["title"] = document.getElementById("title").value
-			data["description"] = document.getElementById("description").value
-			fetch("/item/update/"+id, {method:'PUT',headers: {'Content-Type':'application/json',},body: JSON.stringify(data),})
+			data["item_type"] = document.getElementById("item_type").value
+			data["category"] = document.getElementById("category").value
+			data["quantity"] = document.getElementById("quantity").value
+			fetch(
+			    "/item/update/"+id,
+			    {method:'PUT'},headers:
+			    {'Content-Type':'application/json'},
+			    body: JSON.stringify(data)}
+            )
 			.then(response => response.json())
 			.then(data => document.getElementById("result").innerHTML = data.message)
 		}
