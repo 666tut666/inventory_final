@@ -53,45 +53,21 @@ def item_home(
         ## as we have used item_hp, gotta define it there too
 
 #updating item
-
-# Method-1
-@router.put("/item/update/{id}", tags=["item"])
+@router.get("/item/update/{id}", tags=["item"])
 def update_item_by_id(
     id: int,
-    item: ItemCreate,
-    db: Session = Depends(get_db),
-    token: str = Depends(oath2_scheme),
+    request:Request,
+    db:Session=Depends(get_db)
 ):
-    user = get_user_from_token(db, token)
-    existing_item = db.query(Item).filter(Item.id == id)
-    if not existing_item.first():
-        return {"message": f"No Details found for Item ID {id}"}
-    if existing_item.first().owner_id == user.id:
-        existing_item.update(jsonable_encoder(item))
-        db.commit()
-        return {"message": f"Details successfully updated for Item ID {id}"}
-    else:
-        return {"message": "You are not authorized"}
-
-
-# Method-2
-@router.put("/item/update1/{id}", tags=["item"])
-def update1_item_by_id(
-    id: int,
-    item: ItemCreate,
-    db: Session = Depends(get_db),
-    token: str = Depends(oath2_scheme),
-):
-    user = get_user_from_token(db, token)
-    existing_item = db.query(Item).filter(Item.id == id)
-    if not existing_item.first():
-        return {"message": f"No Details found for Item ID {id}"}
-    if existing_item.first().owner_id == user.id:
-        existing_item.update(item.__dict__)
-        db.commit()
-        return {"message": f"Details successfully updated for Item ID {id}"}
-    else:
-        return {"message": "You are not authorized"}
+    item = db.query(Item).filter(Item.id==id).first()
+    return templates.TemplateResponse(
+        "update_item.html",
+        {
+            "request":request,
+            "item":item
+        }
+    )
+# Method-1
 
 
 @router.get("/detail/{id}")

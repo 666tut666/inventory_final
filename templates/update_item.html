@@ -22,7 +22,7 @@
           </div>
           <div class="mb-3">
             <label for="item_type" class="form-label">Item Type</label>
-            <input type="text" class="form-control" name="item_type" value="{{item.value}}" required placeholder="Enter Item Type">
+            <input type="text" class="form-control" name="item_type" value="{{item.item_type}}" required placeholder="Enter Item Type">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
@@ -37,9 +37,9 @@
           </div>
 
           <div class="form-text">Enter item's description,in details</div>
-
+          <button type="submit" class="btn btn-primary">Update</button>
         </form>
-        <button type="submit" class="btn btn-primary">Update</button>
+
     </div>
 {% endblock %}
 
