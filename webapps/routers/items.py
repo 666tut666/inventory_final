@@ -2,14 +2,14 @@ import datetime
 from typing import Optional
 from fastapi import APIRouter, Request, Depends, status, HTTPException #, responses
 from fastapi.templating import Jinja2Templates
-#from fastapi.encoders import jsonable_encoder
-#from routers.login import oath2_scheme
+from fastapi.encoders import jsonable_encoder
+from routers.login import oath2_scheme
 from db.models import Item, User, Admin
 from sqlalchemy.orm import Session
 from db.database import get_db
 from jose import jwt
 from config.db_config import setting
-#from db.schemas.items import ItemCreate, ShowItem
+from db.schemas.items import ItemCreate, ShowItem
 
 router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
@@ -68,6 +68,43 @@ def update_item_by_id(
         }
     )
 # Method-1
+@router.put("/item/update/{id}", tags=["item"])
+def update_item_by_id(
+    id: int,
+    item: ItemCreate,
+    db: Session = Depends(get_db),
+    token: str = Depends(oath2_scheme),
+):
+    user = get_user_from_token(db, token)
+    existing_item = db.query(Item).filter(Item.id == id)
+    if not existing_item.first():
+        return {"message": f"No Details found for Item ID {id}"}
+    if existing_item.first().owner_id == user.id:
+        existing_item.update(jsonable_encoder(item))
+        db.commit()
+        return {"message": f"Details successfully updated for Item ID {id}"}
+    else:
+        return {"message": "You are not authorized"}
+
+
+# Method-2
+@router.put("/item/update1/{id}", tags=["item"])
+def update1_item_by_id(
+    id: int,
+    item: ItemCreate,
+    db: Session = Depends(get_db),
+    token: str = Depends(oath2_scheme),
+):
+    user = get_user_from_token(db, token)
+    existing_item = db.query(Item).filter(Item.id == id)
+    if not existing_item.first():
+        return {"message": f"No Details found for Item ID {id}"}
+    if existing_item.first().owner_id == user.id:
+        existing_item.update(item.__dict__)
+        db.commit()
+        return {"message": f"Details successfully updated for Item ID {id}"}
+    else:
+        return {"message": "You are not authorized"}
 
 
 @router.get("/detail/{id}")
