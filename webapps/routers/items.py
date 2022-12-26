@@ -1,15 +1,15 @@
 import datetime
 from typing import Optional
-from fastapi import APIRouter, Request, Depends, responses, status, HTTPException
+from fastapi import APIRouter, Request, Depends, status, HTTPException #, responses
 from fastapi.templating import Jinja2Templates
-from fastapi.encoders import jsonable_encoder
-from routers.login import oath2_scheme
+#from fastapi.encoders import jsonable_encoder
+#from routers.login import oath2_scheme
 from db.models import Item, User, Admin
 from sqlalchemy.orm import Session
 from db.database import get_db
 from jose import jwt
 from config.db_config import setting
-from db.schemas.items import ItemCreate, ShowItem
+#from db.schemas.items import ItemCreate, ShowItem
 
 router = APIRouter(include_in_schema=False)
 templates = Jinja2Templates(directory="templates")
