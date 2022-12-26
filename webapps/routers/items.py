@@ -67,6 +67,9 @@ def update_item_by_id(
             "item":item
         }
     )
+
+
+#try each and choose one
 # Method-1
 @router.put("/item/update/{id}", tags=["item"])
 def update_item_by_id(
