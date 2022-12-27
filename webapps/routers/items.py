@@ -69,47 +69,6 @@ def update_item_by_id(
     )
 
 
-#try each and choose one
-# Method-1
-@router.put("/item/update/{id}", tags=["item"])
-def update_item_by_id(
-    id: int,
-    item: ItemCreate,
-    db: Session = Depends(get_db),
-    token: str = Depends(oath2_scheme),
-):
-    user = get_user_from_token(db, token)
-    existing_item = db.query(Item).filter(Item.id == id)
-    if not existing_item.first():
-        return {"message": f"No Details found for Item ID {id}"}
-    if existing_item.first().owner_id == user.id:
-        existing_item.update(jsonable_encoder(item))
-        db.commit()
-        return {"message": f"Details successfully updated for Item ID {id}"}
-    else:
-        return {"message": "You are not authorized"}
-
-
-# Method-2
-@router.put("/item/update1/{id}", tags=["item"])
-def update1_item_by_id(
-    id: int,
-    item: ItemCreate,
-    db: Session = Depends(get_db),
-    token: str = Depends(oath2_scheme),
-):
-    user = get_user_from_token(db, token)
-    existing_item = db.query(Item).filter(Item.id == id)
-    if not existing_item.first():
-        return {"message": f"No Details found for Item ID {id}"}
-    if existing_item.first().owner_id == user.id:
-        existing_item.update(item.__dict__)
-        db.commit()
-        return {"message": f"Details successfully updated for Item ID {id}"}
-    else:
-        return {"message": "You are not authorized"}
-
-
 @router.get("/detail/{id}")
 def item_detail(
         request: Request,
@@ -305,6 +264,46 @@ def request_item(request: Request):
         "request_item.html",
         {"request": request}
     )
+
+@router.put("/item/update/{id}", tags=["item"])
+def update_an_item(
+        request: Request,
+        id: int,
+        db: Session = Depends(get_db)
+):
+    errors = []
+    token = request.cookies.get("access_token")
+    if token is None:
+        errors.append("please login as admin")
+        return templates.TemplateResponse(
+            "update_item.html",
+            {
+                "request": request,
+                "errors": errors
+            }
+        )
+    else:
+        try:
+            existing_item = db.query(Item).filter(Item.id == id)
+            # it only returns query
+            if not existing_item.first():
+                # .first() to fetch details
+                return {"Message": f"Item ID {id} has no details "}
+            if existing_item.first().id > 0:
+                existing_item.update(jsonable_encoder(item))
+
+                db.commit()
+
+            return templates.TemplateResponse(
+                "update_delete_item.html", {"request": request, "items": items}
+            )
+        except Exception as e:
+            print(e)
+            errors.append("You are not Authenticated")
+            return templates.TemplateResponse(
+                "update_delete_item.html",
+                {"request": request, "errors": errors},
+            )
 
 
 @router.post("/request-item/{id}",tags=["items"])

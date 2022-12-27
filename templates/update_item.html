@@ -14,7 +14,7 @@
                 <!-- displays the error we provided in items.py -->
             </div>
         {% endfor %}
-        <form method="post">
+        <form method="put">
           <div class="mb-3">
             <label for="title" class="form-label">Item Title</label>
             <input type="text" class="form-control" id="title" required required name="title" value="{{item.title}}" placeholder="Enter Item Title">

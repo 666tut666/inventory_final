@@ -132,17 +132,20 @@ def update_item_by_id(
         token:str=Depends(oath2_scheme)
 ):
     admin = get_admin_from_token(db, token)
-    existing_item = db.query(Item).filter(Item.id==id)
-        #it only returns query
-    if not existing_item.first():
-            #.first() to fetch details
-        return {"Message": f"Item ID {id} has no details "}
-    if existing_item.first().id > 0:
-        existing_item.update(jsonable_encoder(item))
-        db.commit()
-        return {"message": "details Successfully Updated"}
+    if not admin:
+        return {"Message": "please login as admin"}
     else:
-        return {"message": "you aren`t authorized"}
+        existing_item = db.query(Item).filter(Item.id==id)
+            #it only returns query
+        if not existing_item.first():
+                #.first() to fetch details
+            return {"Message": f"Item ID {id} has no details "}
+        if existing_item.first().id > 0:
+            existing_item.update(jsonable_encoder(item))
+            db.commit()
+            return {"message": "details Successfully Updated"}
+        else:
+            return {"message": "you aren`t authorized"}
 
 
 @router.delete("/item/delete/{id}", tags=["items"])
