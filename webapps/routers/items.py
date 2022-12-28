@@ -268,8 +268,10 @@ def request_item(request: Request):
 @router.put("/item/update/{id}", tags=["item"])
 def update_an_item(
         request: Request,
+        item:ItemCreate,
         id: int,
-        db: Session = Depends(get_db)
+        db: Session = Depends(get_db),
+
 ):
     errors = []
     token = request.cookies.get("access_token")
@@ -286,6 +288,7 @@ def update_an_item(
         try:
             existing_item = db.query(Item).filter(Item.id == id)
             # it only returns query
+
             if not existing_item.first():
                 # .first() to fetch details
                 return {"Message": f"Item ID {id} has no details "}
@@ -295,7 +298,7 @@ def update_an_item(
                 db.commit()
 
             return templates.TemplateResponse(
-                "update_delete_item.html", {"request": request, "items": items}
+                "update_delete_item.html", {"request": request, "items": item}
             )
         except Exception as e:
             print(e)

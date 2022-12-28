@@ -166,5 +166,3 @@ def delete_item_by_id(
         return {"message": f"Item id: {id} Successfully Deleted"}
     else:
         return {"message": "you aren`t authorized"}
-
-
