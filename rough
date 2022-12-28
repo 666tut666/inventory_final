@@ -100,3 +100,15 @@ conn.commit()
 
 #Closing the connection
 conn.close()
+
+
+
+______________________
+javascript
+----------------------
+$(function()
+{
+  $( "#autocomplete" ).autocomplete({
+  source: "/item/autocomplete"
+  });
+});
