@@ -1,3 +1,28 @@
+@router.put("/item/update/{id}", tags=["items"])
+def update_item_by_id(
+        id:int,
+        item:ItemCreate,
+        db:Session=Depends(get_db),
+        token:str=Depends(oath2_scheme)
+):
+    admin = get_admin_from_token(db, token)
+    if not admin:
+        return {"Message": "please login as admin"}
+    else:
+        existing_item = db.query(Item).filter(Item.id==id)
+            #it only returns query
+        if not existing_item.first():
+                #.first() to fetch details
+            return {"Message": f"Item ID {id} has no details "}
+        if existing_item.first().id == admin.id:
+            existing_item.update(jsonable_encoder(item))
+            db.commit()
+            return {"message": "details Successfully Updated"}
+        else:
+            return {"message": "you aren`t authorized"}
+
+
+
 @router.post("/create-an-item")
 async def create_an_item(request: Request):
             id = form.get("id")
