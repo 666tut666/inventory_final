@@ -13,7 +13,7 @@ router=APIRouter()
     tags=['admin']
 )
 ##tags=["..."] to manage kun tag ma halnae
-def get_user():
+def get_admin():
     return {"message": "hello user"}
 
 

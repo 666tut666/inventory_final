@@ -42,7 +42,7 @@ def register(
     tags=['user'],
     response_model=List[ShowUser]
 )
-def get_user(
+def get_all_users(
         db: Session = Depends(get_db)
 ):
     users = db.query(User).all()

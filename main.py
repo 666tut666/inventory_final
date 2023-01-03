@@ -5,9 +5,9 @@ from config.db_config import setting
 from routers import admin
 from routers import items
 from routers import login
+from routers import users
 from routers import request
 from webapps.routers import items as web_items, admin as web_users, auth as web_auth
-from webapps.routers import users
 from fastapi.staticfiles import StaticFiles
 
 

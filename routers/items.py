@@ -140,8 +140,8 @@ def update_item_by_id(
         if not existing_item.first():
                 #.first() to fetch details
             return {"Message": f"Item ID {id} has no details "}
-        if existing_item.first().id == admin.id:
-            existing_item.update(jsonable_encoder(item))
+        if existing_item.first().id > 0:
+            existing_item.update(item.__dict__)
             db.commit()
             return {"message": "details Successfully Updated"}
         else:
