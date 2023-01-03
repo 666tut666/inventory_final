@@ -39,7 +39,8 @@
                   <td>{{item.category}}</td>
                     <td><button type="button" class="btn btn-danger" onclick="delete_item({{item.id}})">Delete</button>
                     <a href="/item/update/{{item.id}}" class="btn btn-primary">Update</a>
-                  </td>
+                    <a href="/" class="btn btn-primary">Cancel</a>
+                    </td>
 
                 </tr>
             {%endfor%}
