@@ -18,6 +18,9 @@
                     {% with citem = item %}
                         {% include 'card.html' %}
                     {% endwith %}
+                    {% if loop.index % 3 %}
+                        <br>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
