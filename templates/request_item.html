@@ -6,7 +6,17 @@
 {% endblock %}
 
 {% block content %}
-
+	<head>
+    <style>
+      body {
+        background: url('/static/images/background.jpg') no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+    </style>
+  </head>
 
     <div class="container">
 		<h1 class="text-center">Item Detail</h1>
@@ -29,8 +39,9 @@
 	    </table>
 		<form method="post">
 				<button type="submit" class="btn btn-primary">Send Request</button>
+				<a href="/" class="btn btn-primary">Cancel</a>
 		</form>
-		<a href="/" class="btn btn-primary">Cancel</a>
+
 	</div>
 
 {% endblock %}
