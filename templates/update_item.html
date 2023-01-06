@@ -7,9 +7,7 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <h1 class="text-center">
-            <div class="p-3 mb-2 bg-info text-black">Update an Item</div>
-        </h1>
+        <h1 class="text-center"><div class="p-3 mb-2 bg-info text-black">Update the Item</div></h1>
         {% for error in errors %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}
@@ -20,7 +18,7 @@
         <form id="form-data">
           <div class="mb-3">
             <label for="title" class="form-label">
-                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                 <div class="badge bg-primary text-wrap" style="width: 6rem;">
                           Item Title
                         </div>
             </label>
@@ -55,14 +53,14 @@
                 <!-- required is used -->
           </div>
           <div class="form-text">
-              <h5>
+              <h4>
                   <div class="badge bg-warning text-black" style="width: 10rem;">
-                          Edit as necessary!!!
+                          Edit as required.
                         </div>
-              </h5>
+              </h4>
+          </div>
         </form>
         <button type="submit" class="btn btn-success" onclick="update_item({{item.id}}); window.location.replace('/')">Update</button>
-
         <a href="/" class="btn btn-danger">Cancel</a>
     </div>
 {% endblock %}
