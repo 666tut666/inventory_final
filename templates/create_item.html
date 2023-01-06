@@ -7,7 +7,9 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <h1 class="text-center">Create an Item</h1>
+        <h1 class="text-center">
+            <div class="p-3 mb-2 bg-info text-black">Create an Item</div>
+        </h1>
         {% for error in errors %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}
@@ -16,29 +18,54 @@
         {% endfor %}
         <form method="post">
           <div class="mb-3">
-            <label for="title" class="form-label">Item Title</label>
+            <label for="title" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Title
+                        </div>
+            </label>
             <input type="text" class="form-control" name="title" required placeholder="Enter Item Title">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
-            <label for="item_type" class="form-label">Item Type</label>
+            <label for="item_type" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Type
+                        </div>
+            </label>
             <input type="text" class="form-control" name="item_type" required placeholder="Enter Item Type">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
-            <label for="category" class="form-label">Item Category</label>
+            <label for="category" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Category
+                        </div>
+            </label>
             <input type="text" class="form-control" name="category" required placeholder="Enter Item Category">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
-            <label for="quantity" class="form-label">Item Quantity</label>
+            <label for="quantity" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Quantity
+                        </div>
+            </label>
             <input type="number" class="form-control" name="quantity" required placeholder="Enter Item Quantity">
                 <!-- required is used -->
           </div>
 
-          <div class="form-text">Enter item's description,in details</div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <a href="/" class="btn btn-primary">Cancel</a>
+            <br>
+
+          <div class="form-text">
+              <h4>
+                  <div class="badge bg-warning text-black" style="width: 18rem;">
+                          Please provide Item`s detail
+                        </div>
+              </h4>
+          </div>
+            <br>
+          <button type="submit" class="btn btn-success">Submit</button>
+          <a href="/" class="btn btn-danger">Cancel</a>
         </form>
     </div>
 {% endblock %}

@@ -6,7 +6,9 @@
 
 {% block content %}
     <div class="table">
-        <h3 class="text-center">Update and/or Delete Item</h3>
+        <h1 class="text-center">
+            <div class="p-3 mb-2 bg-info text-black">Update and/or Delete Item</div>
+        </h1>
         {% for error in errors %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}
@@ -14,7 +16,7 @@
             </div>
         {% endfor %}
         <div id="result"></div>
-        <table id="datatable" class="table table-striped">
+        <table id="datatable" class="table table-dark table-striped">
           <thead>
             <tr>
                 <th scope="col">SN</th>

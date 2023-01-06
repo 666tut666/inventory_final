@@ -120,13 +120,13 @@ async def create_an_item(
         #we need to define error dictionary
         #it`ll store errors
     if not title or len(title) < 2:
-        errors.append("Title should be greater than two character")
+        errors.append("Item Title should be greater than two character")
     if not item_type or len(item_type) < 3:
-        errors.append("type should be be more than three characters")
+        errors.append("Item Type should be be more than three characters")
     if not quantity:
-        errors.append("Quantity should be be more than three characters")
+        errors.append("Item Quantity should be be more than three characters")
     if not category or len(category) < 3:
-        errors.append("Category should be be more than three characters")
+        errors.append("Item Category should be be more than three characters")
 
 
 

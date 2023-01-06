@@ -7,14 +7,16 @@
 {% block content %}
   <form method="post">
 	<div class="container">
-		<h1>Item Detail</h1>
+		<h1 class="text-center">
+            <div class="p-3 mb-2 bg-info text-black">Item Detail</div>
+        </h1>
 		{% for error in errors %}
                 <div class="alert alert-danger" role="alert">
                     {{ error }}
                 </div>
 		{% endfor %}
 
-		<table class="table">
+		<table class="table table-warning">
 		  <tbody>
 
    			 <tr>

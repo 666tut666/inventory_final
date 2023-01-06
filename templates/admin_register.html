@@ -8,7 +8,9 @@
 {% block content %}
     <div class="container">
       <h1 class="text-center">
-        Admin Registration
+        <h1 class="text-center">
+            <div class="p-3 mb-2 bg-info text-black">Admin Register</div>
+        </h1>
       </h1>
       {% for error in errors %}
         <div class="alert alert-primary" role="alert">
@@ -18,17 +20,25 @@
        <form method="post">
 
           <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
+            <label for="email" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Email
+                        </div>
+            </label>
             <input type="email" class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter your Email">
           </div>
 
           <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Password
+                        </div>
+            </label>
             <input type="password" class="form-control" name="password" placeholder="Enter your Password">
           </div>
 
-          <button type="submit" class="btn btn-primary">Register As Admin</button>
-          <a href="/" class="btn btn-primary">Cancel</a>
+          <button type="submit" class="btn btn-success">Register As Admin</button>
+          <a href="/" class="btn btn-danger">Cancel</a>
        </form>
 
     </div>
