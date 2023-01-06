@@ -6,37 +6,28 @@
 
 {% block content %}
     <div class="container">
-        <h1 class="text-center"><h1 class="text-center"><div class="p-3 mb-2 bg-info text-black">Login</div></h1></h1>
-          {% if msg %}
-                <div class="alert alert-success" role="success">
-                    {{ msg }}
-                </div>
-          {% endif %}
-          {% for error in errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{ error }}
-                </div>
-          {% endfor %}
-
-          <form method="post">
-                <div class="mb-3">
-                    <label for="email" class="form-label">
-                        <div class="badge bg-primary text-wrap" style="width: 6rem;">
-                          Email
-                        </div>
-                    </label>
-                    <input type="email" required class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter Email">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">
-                        <div class="badge bg-primary text-wrap" style="width: 6rem;">
-                          Password
-                        </div>
-                    </label>
-                    <input type="password" required class="form-control" name="password" placeholder="Enter Password">
-                </div>
-                <button type="submit" class="btn btn-success">Login</button>
-                <a href="/" class="btn btn-danger">Cancel</a>
-      </form>
+        <h1 class="text-center"><div class="p-3 mb-2 bg-info text-black">Login</div></h1>
+        {% if msg %}
+            <div class="alert alert-success" role="success">
+                {{ msg }}
+            </div>
+        {% endif %}
+        {% for error in errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+        <form method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label"><div class="badge bg-primary text-wrap" style="width: 6rem;">Email</div></label>
+                <input type="email" required class="form-control" name="email" aria-describedby="emailHelp" placeholder="Enter Email">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label"><div class="badge bg-primary text-wrap" style="width: 6rem;">Password</div></label>
+                <input type="password" required class="form-control" name="password" placeholder="Enter Password">
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+            <a href="/" class="btn btn-danger">Cancel</a>
+        </form>
     </div>
 {% endblock %}
