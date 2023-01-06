@@ -40,19 +40,19 @@ async def login(
     try:
         # checking if email exists on db.
         admin = db.query(Admin).filter(Admin.email == email).first()
-        user = db.query(User).filter(User.email == email).first()
+        #user = db.query(User).filter(User.email == email).first()
         if admin is None:
             errors.append("Email does not exist")
             return templates.TemplateResponse(
                 "login.html",
                 {"request": request, "errors": errors}
             )
-        if user is None:
-            errors.append("Email does not exist")
-            return templates.TemplateResponse(
-                "login.html",
-                {"request": request, "errors": errors}
-            )
+        #if user is None:
+        #    errors.append("Email does not exist")
+        #    return templates.TemplateResponse(
+        #        "login.html",
+        #        {"request": request, "errors": errors}
+        #    )
 
             # returning login page again as
             # login was not successful
@@ -86,7 +86,7 @@ async def login(
                 # value is Bearer <token>
                 # using Http only = True - notes ma explained cha
 
-            if Hasher.verify_password(password, user.password):
+            if Hasher.verify_password(password, admin.password):
                 data = {"sub": email}
 
                 jwt_token = jwt.encode(
@@ -115,9 +115,11 @@ async def login(
                     "login.html",
                     {"request": request, "errors": errors}
                 )
-    except:
-        errors.append("something`s wrong")
-        return templates.TemplateResponse(
-            "login.html",
-            {"request": request, "errors": errors}
-        )
+    except Exception as e:
+        print(e)
+    #except:
+    #    errors.append("something`s wrong")
+    #    return templates.TemplateResponse(
+    #        "login.html",
+    #        {"request": request, "errors": errors}
+    #    )
