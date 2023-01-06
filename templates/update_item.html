@@ -7,7 +7,9 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-        <h1 class="text-center">Update an Item</h1>
+        <h1 class="text-center">
+            <div class="p-3 mb-2 bg-info text-black">Update an Item</div>
+        </h1>
         {% for error in errors %}
             <div class="alert alert-danger" role="alert">
                 {{ error }}
@@ -17,29 +19,51 @@
         <div id="result" class="text-success"></div>
         <form id="form-data">
           <div class="mb-3">
-            <label for="title" class="form-label">Item Title</label>
+            <label for="title" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Title
+                        </div>
+            </label>
             <input type="text" class="form-control" id="title" required name="title" value="{{item.title}}" placeholder="Enter Item Title">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
-            <label for="item_type" class="form-label">Item Type</label>
+            <label for="item_type" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Type
+                        </div>
+            </label>
             <input type="text" class="form-control" id="item_type" required name="item_type" value="{{item.item_type}}" placeholder="Enter Item Type">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
-            <label for="category" class="form-label">Item Category</label>
+            <label for="category" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Category
+                        </div>
+            </label>
             <input type="text" class="form-control" id="category" required name="category" value="{{item.category}}" placeholder="Enter Item Category">
                 <!-- required is used -->
           </div>
           <div class="mb-3">
-            <label for="quantity" class="form-label">Item Quantity</label>
+            <label for="quantity" class="form-label">
+                <div class="badge bg-primary text-wrap" style="width: 6rem;">
+                          Item Quantity
+                        </div>
+            </label>
             <input type="number" class="form-control" id="quantity" required name="quantity" value="{{item.quantity}}" placeholder="Enter Item Quantity">
                 <!-- required is used -->
           </div>
-          <div class="form-text">Enter item's description,in details</div>
+          <div class="form-text">
+              <h5>
+                  <div class="badge bg-warning text-black" style="width: 10rem;">
+                          Edit as necessary!!!
+                        </div>
+              </h5>
         </form>
-        <button type="submit" class="btn btn-primary" onclick="update_item({{item.id}})">Update</button>
-        <a href="/" class="btn btn-primary">Cancel</a>
+        <button type="submit" class="btn btn-success" onclick="update_item({{item.id}}); window.location.replace('/')">Update</button>
+
+        <a href="/" class="btn btn-danger">Cancel</a>
     </div>
 {% endblock %}
 
