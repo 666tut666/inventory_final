@@ -154,15 +154,18 @@ def delete_item_by_id(
         db:Session=Depends(get_db),
         token:str=Depends(oath2_scheme)
 ):
-    user = get_user_from_token(db, token)
-    existing_item = db.query(Item).filter(Item.id == id)
-        # it only returns query
-    if not existing_item.first():
-            #.first() to fetch details
-        return {"message": f"Item ID {id} has no details "}
-    if existing_item.first().id >0:
-        existing_item.delete()
-        db.commit()
-        return {"message": f"Item id: {id} Successfully Deleted"}
+    admin = get_admin_from_token(db, token)
+    if not admin:
+        return {"Message": "please login as admin"}
     else:
-        return {"message": "you aren`t authorized"}
+        existing_item = db.query(Item).filter(Item.id == id)
+            # it only returns query
+        if not existing_item.first():
+                #.first() to fetch details
+            return {"message": f"Item ID {id} has no details "}
+        if existing_item.first().id >0:
+            existing_item.delete()
+            db.commit()
+            return {"message": f"Item id: {id} Successfully Deleted"}
+        else:
+            return {"message": "you aren`t authorized"}
