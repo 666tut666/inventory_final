@@ -1,0 +1,8 @@
+// /models item odering sth
+ORDER_STATUES=(
+        ('PENDING', 'pending'),
+        ('IN-TRANSIT', 'in-transit'),
+        ('DELIVERED', 'delivered')
+    )
+
+
