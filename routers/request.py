@@ -5,9 +5,14 @@ from sqlalchemy.orm import Session
 from db.database import get_db
 from config.db_config import setting
 from jose import jwt
+#from db.database import
 
 
-router = APIRouter()
+router=APIRouter(
+    prefix="/orders",
+    tags=['orders']
+)
+
 
 def get_user_from_token(db, token):
     ##using try block
