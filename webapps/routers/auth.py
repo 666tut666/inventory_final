@@ -40,19 +40,20 @@ async def login(
     try:
         # checking if email exists on db.
         admin = db.query(Admin).filter(Admin.email == email).first()
-        #user = db.query(User).filter(User.email == email).first()
+        user = db.query(User).filter(User.email == email).first()
         if admin is None:
             errors.append("Email does not exist")
             return templates.TemplateResponse(
                 "login.html",
                 {"request": request, "errors": errors}
             )
-        #if user is None:
-        #    errors.append("Email does not exist")
-        #    return templates.TemplateResponse(
-        #        "login.html",
-        #        {"request": request, "errors": errors}
-        #    )
+        if user is None:
+            print("hello")
+            errors.append("Email does not exist")
+            return templates.TemplateResponse(
+                "login.html",
+                {"request": request, "errors": errors}
+            )
 
             # returning login page again as
             # login was not successful
