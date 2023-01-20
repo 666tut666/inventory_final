@@ -1,5 +1,5 @@
- import Vue from 'vue';
- window.Vue = Vue;
+import Vue from 'vue';
+window.Vue = Vue;
 
 const { createApp } = Vue;
 const { createVuetify } = Vuetify;
