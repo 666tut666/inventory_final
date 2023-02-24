@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title class="text-center">
+      Request Item
+    </title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+		<h1 class="text-center"><div class="p-3 mb-2 bg-info text-black">Request an Item</div></h1>
+		<table class="table">
+		  <tbody>
+   			 <tr>
+     			 <th scope="row">Title</th>
+    		</tr>
+    		<tr>
+      			<th scope="row">Description</th>
+    		</tr>
+    		<tr>
+      			<th scope="row">Date Posted</th>
+    		</tr>
+			<tr>
+				<th scope="row">Owner</th>
+			</tr>
+
+		  </tbody>
+	    </table>
+		<form method="post">
+				<button type="submit" class="btn btn-success">Send Request</button>
+				<a href="/" class="btn btn-danger">Cancel</a>
+		</form>
+
+	</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+@router.post("/request_item/{id}")
+def request_item():
+    conn = psycopg2.connect(
+        database=setting.POSTGRES_DATABASE,
+        user=setting.POSTGRES_USER,
+        password=setting.POSTGRES_PASSWORD,
+        host='127.0.0.1',
+        port=setting.POSTGRES_PORT
+    )
+    conn.autocommit=True
+
+    cursor = conn.cursor()
+
+    sql = '''SELECT * from ITEMS'''
+    cursor.execute(sql)
+    print(cursor.fetchall())
+    ???
+    sql = "UPDATE ITEMS SET QUANTITY = QUANTITY -1"
+    ???
+    cursor.execute(sql)
+    conn.commit()
+    conn.close()

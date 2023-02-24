@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<title class="text-center">Item Detail</title>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+	<div class="container">
+		<h1 class="text-center">
+            <div class="p-3 mb-2 bg-info text-black">Item Detail</div>
+        </h1>
+		{% for error in errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+		{% endfor %}
+
+		<table class="table table-warning">
+		  <tbody>
+
+   			 <tr>
+     			 <th scope="row">Title</th>
+     			 <td>{{item.title}}</td>
+
+    		</tr>
+    		<tr>
+      			<th scope="row">Item Type</th>
+      			<td>{{item.item_type}}</td>
+    		</tr>
+    		<tr>
+      			<th scope="row">Date Posted</th>
+      			<td colspan="2">{{item.creation_date}}</td>
+    		</tr>
+			<tr>
+				<th scope="row">Quantity</th>
+				<td colspan="2">{{item.quantity}}</td>
+			</tr>
+		  	<tr>
+				<th scope="row">Category</th>
+				<td colspan="2">{{item.category}}</td>
+			</tr>
+		  <tr>
+				<th scope="row">Owner id</th>
+				<td colspan="2">{{item.owner_id}}</td>
+			</tr>
+		  </tbody>
+	    </table>
+	</div>
+    <div class="container">
+          {% if msg %}
+                <div class="alert alert-success" role="success">
+                    {{ msg }}
+                </div>
+          {% endif %}
+          {% for error in errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+          {% endfor %}
+
+          <form method="post">
+
+                <a href="/pending" class="btn btn-primary">Request Item</a>
+			  	<a href="/item/update/{{item.id}}" class="btn btn-success">Update</a>
+			  	<a href="/" class="btn btn-danger">Cancel</a>
+
+      	  </form>
+    </div>
+  </form>
+{% endblock %}

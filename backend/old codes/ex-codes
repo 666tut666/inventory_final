@@ -1,0 +1,75 @@
+@router.put("/item/update/{id}", tags=["items"])
+def update_item_by_id(
+        id:int,
+        item:ItemCreate,
+        db:Session=Depends(get_db),
+        token:str=Depends(oath2_scheme)
+):
+    admin = get_admin_from_token(db, token)
+    if not admin:
+        return {"Message": "please login as admin"}
+    else:
+        existing_item = db.query(Item).filter(Item.id==id)
+            #it only returns query
+        if not existing_item.first():
+                #.first() to fetch details
+            return {"Message": f"Item ID {id} has no details "}
+        if existing_item.first().id == admin.id:
+            existing_item.update(jsonable_encoder(item))
+            db.commit()
+            return {"message": "details Successfully Updated"}
+        else:
+            return {"message": "you aren`t authorized"}
+
+
+
+@router.post("/create-an-item")
+async def create_an_item(request: Request):
+            id = form.get("id")
+        title = form.get("title")
+        type = form.get("title")
+        category = form.get("category")
+        quantity = form.get("quantity")
+        creation_date = form.get("creation_date")
+        form = await request.form()
+
+    errors = []
+        #we need to define error dictionary
+        #it`ll store errors
+    if not title or len(title) < 2:
+        errors.append("Title should be greater than two character")
+    if not description or len(description) <10:
+        errors.append("Description should be be more than ten characters")
+    #if there are errors len will not be 0
+    #in case of error we gotta display error
+    #and also reload page showing what error, SO
+    if len(errors) > 0:
+        return templates.TemplateResponse(
+            "create_item.html",
+            {
+                "request": request,
+                "errors": errors
+            }
+        )
+    #{....} passing context dict, request and showing error
+
+
+@router.post(
+    "/admin_register",
+    tags=['admin'],
+    response_model=ShowAdmin
+)
+def create_admin(
+        admin: AdminCreate,
+        db: Session = Depends(get_db)
+):
+    admin = Admin(
+        email=admin.email,
+        password=Hasher.get_hash_password(admin.password),
+        admin_id=admin.admin_id
+        admin_type_id=admin.admin_type_id
+    )
+    db.add(admin)
+    db.commit()
+    db.refresh(admin)
+    return admin

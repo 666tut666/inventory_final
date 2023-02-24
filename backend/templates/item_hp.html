@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title> Item HomePage </title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h3 class="text-center">
+             <div class="badge bg-secondary text-wrap" style="width: 15rem;">
+                          Item Homepage
+                        </div>
+        </h3>
+        {% if msg %}
+            <div class="alert alert-success" role="alert">
+                {{msg}}
+            </div>
+        {% endif %}
+        <div class="row">
+            {% for item in items %}
+                <div class="col">
+                    {% with citem = item %}
+                        {% include 'card.html' %}
+                    {% endwith %}
+                    {% if loop.index % 3 %}
+                        <br>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
