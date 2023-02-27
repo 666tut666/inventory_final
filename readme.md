@@ -20,7 +20,7 @@ for react app on frontend
     npm start
   
   
-  if you recieve error on frontend
+  if you receive error on frontend
       delete
           /frontend/node_modules
         and
