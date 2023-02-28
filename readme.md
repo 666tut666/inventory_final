@@ -1,5 +1,4 @@
-go
-Copy code
+
 **First, go to the backend directory:**
 
 ```sh
