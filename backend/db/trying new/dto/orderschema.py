@@ -2,12 +2,6 @@ from pydantic import BaseModel
 from typing import List
 
 
-class CartSchema(BaseModel):
-    address_line1: str
-    address_city: str
-    address_country: str
-    address_zip: str
-
 
 class TokenSchema(BaseModel):
     id: str
