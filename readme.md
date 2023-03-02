@@ -1,36 +1,22 @@
-First, go to the backend directory:
+Backend Setup:
+1. Go to the backend directory:
+    cd backend
+2. Install the required packages:
+    pip install -r requirements.txt
+3. Run the backend:
+    uvicorn main:app --reload
 
-cd backend 
-
-Next, install the required packages:
-
-pip install -r requirements.txt 
-
-Now, run the backend:
-
-uvicorn main:app --reload 
-
-For the React app on the frontend (make sure you have the latest version of Node.js):
-
-(src: "https://nodejs.org/en/download/" )
-
-In the terminal, navigate to the frontend directory:
-
-cd frontend 
-
-Install the required packages:
-
-npm install 
-
-Run React:
-
-npm start 
+Frontend Setup:
+1. Ensure that you have the latest version of Node.js installed. If not, download it from https://nodejs.org/en/download/.
+2. In the terminal, navigate to the frontend directory:
+    cd frontend
+3. Install the required packages:
+    npm install
+4. Run React:
+    npm start
 
 If you receive an error on the frontend:
-
-Delete the following directories: 
-
-/frontend/node_modules 
-/frontend/package-lock.json 
-
-Reinstall npm and run React.
+1. Delete the following directories:
+    /frontend/node_modules
+    /frontend/package-lock.json
+2. Reinstall npm and run React.
