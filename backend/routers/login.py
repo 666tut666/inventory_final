@@ -12,8 +12,7 @@ oath2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl='/login/token')
 # Oath2 session created
 # tokenUrl to give route for the token
 
-router = APIRouter()
-
+router = APIRouter(tags=["Authentication"])
 
 @router.post(
     "/login/token",
